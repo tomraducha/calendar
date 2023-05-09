@@ -5,7 +5,7 @@ html, body, #root, .App {
   }
   
 
-.App{
+.home{
     background-color: rgb(242, 242, 242);
 }
 
@@ -38,7 +38,7 @@ a {
 }
 
 .full-calendar {
-  width: 75%;
+  width: 70%;
   margin: 0 auto;
   padding: 60px;
   background: white;
