@@ -2,10 +2,18 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
+import { useState } from "react";
 
 function Calendar() {
+  const [events, setEvents] = useState([]);
+
   const handleEventReceive = (info) => {
-    console.log("Received:", info.event);
+    const newEvent = {
+      title: info.event.title,
+      start: info.event.start,
+      id: info.event.id,
+    };
+    setEvents(events.concat(newEvent));
   };
 
   return (
@@ -20,6 +28,8 @@ function Calendar() {
         initialView="dayGridMonth"
         editable={true}
         droppable={true}
+        // drop={handleEventReceive}
+        events={events}
         eventReceive={handleEventReceive}
       />
     </div>
