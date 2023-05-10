@@ -38,7 +38,7 @@ function EventDropdown() {
                 id={data.value}
                 ref={innerRef}
                 {...innerProps}
-                className="fc-event"
+                className="fc-event fc-h-event"
                 style={{ cursor: "move" }}
               >
                 {data.label}
