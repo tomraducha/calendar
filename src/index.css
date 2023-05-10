@@ -42,7 +42,8 @@ a {
 
 .full-calendar {
   width: 70%;
-  padding: 60px;
+  padding: 30px;
+  margin: 10px auto;
   background: white;
   box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
   border-radius: 10px;

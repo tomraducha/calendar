@@ -26,6 +26,8 @@ function EventDropdown() {
           control: (baseStyles, state) => ({
             ...baseStyles,
             borderColor: state.isFocused ? "grey" : "white",
+            padding: "0.1rem",
+            margin: "0.4rem",
           }),
         }}
         options={eventOptions}
