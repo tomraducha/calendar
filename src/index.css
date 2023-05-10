@@ -46,3 +46,12 @@ a {
   border-radius: 10px;
 }
 
+
+
+
+
+#external-events .fc-event {
+    margin: 10px 0;
+    cursor: pointer;
+  }
+  

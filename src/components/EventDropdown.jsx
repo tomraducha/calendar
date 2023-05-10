@@ -1,48 +1,26 @@
-import { useEffect, useState } from "react";
-import { Menu, MenuItem, Button } from "@mui/material";
-import { events } from "../data/events";
+import { useEffect, useRef } from "react";
+import { Draggable } from "@fullcalendar/interaction";
 
 function EventDropdown() {
+  const draggableEl = useRef(null);
+
   useEffect(() => {
-    let draggables = document.getElementsByClassName("draggable-event");
-    for (let i = 0; i < draggables.length; i++) {
-      draggables[i].setAttribute("draggable", "true");
-      draggables[i].addEventListener("dragstart", (ev) => {
-        ev.dataTransfer.setData("event", draggables[i].innerText);
-      });
-    }
+    new Draggable(draggableEl.current, {
+      itemSelector: ".fc-event",
+      eventData: function (eventEl) {
+        return {
+          title: eventEl.innerText,
+        };
+      },
+    });
   }, []);
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
   return (
-    <div className="event-dropdown">
-      <Button
-        aria-controls="simple-menu"
-        aria-haspopup="true"
-        onClick={handleClick}
-      >
-        Events
-      </Button>
-      <Menu
-        id="simple-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        {events.map((event, i) => (
-          <MenuItem key={i} className="draggable-event">
-            {event}
-          </MenuItem>
-        ))}
-      </Menu>
+    <div id="external-events" ref={draggableEl}>
+      <h3>Events</h3>
+      <div className="fc-event">Mon premier événement</div>
+      <div className="fc-event">Mon deuxième événement</div>
+      <div className="fc-event">Mon troisième événement</div>
     </div>
   );
 }
