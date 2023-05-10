@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Draggable } from "@fullcalendar/interaction";
 import Select from "react-select";
+import { eventOptions } from "../data/eventOptions";
 
 function EventDropdown() {
   const draggableEl = useRef(null);
@@ -17,20 +18,14 @@ function EventDropdown() {
     });
   }, []);
 
-  const eventOptions = [
-    { value: "event-1", label: "Mon premier événement" },
-    { value: "event-2", label: "Mon deuxième événement" },
-    { value: "event-3", label: "Mon troisième événement" },
-  ];
-
   return (
     <div id="external-events" ref={draggableEl}>
-      <h3>Événements</h3>
+      <h3>Events</h3>
       <Select
         styles={{
           control: (baseStyles, state) => ({
             ...baseStyles,
-            borderColor: state.isFocused ? "grey" : "black",
+            borderColor: state.isFocused ? "grey" : "white",
           }),
         }}
         options={eventOptions}
