@@ -11,7 +11,9 @@ function Calendar() {
     const newEvent = {
       title: info.event.title,
       start: info.event.start,
+      end: new Date(info.event.start.getTime() + 60 * 60 * 1000), // ajoute une heure à la date de début
       id: info.event.id,
+      allDay: true,
     };
     setEvents(events.concat(newEvent));
   };
@@ -28,7 +30,6 @@ function Calendar() {
         initialView="dayGridMonth"
         editable={true}
         droppable={true}
-        // drop={handleEventReceive}
         events={events}
         eventReceive={handleEventReceive}
       />
