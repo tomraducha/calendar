@@ -4,14 +4,13 @@ html, body, #root, .App {
     padding: 0;
   }
   
-
 .home{
     background-color: rgb(242, 242, 242);
 }
 
 h1{
     text-align: center;
-    color:  rgb(0, 0, 0);
+    color:  rgb(255, 255, 255);
     font-size: 40px;
 }
 
@@ -19,6 +18,10 @@ h2 {
     color: #364e68;
 }
 
+h3 {
+    color: #ffffff;
+    text-align: center;
+}
 :root {
     --fc-border-color: #364e68;
 }
@@ -39,7 +42,6 @@ a {
 
 .full-calendar {
   width: 70%;
-  margin: 0 auto;
   padding: 60px;
   background: white;
   box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
@@ -51,7 +53,7 @@ a {
 
 
 #external-events .fc-event {
-    margin: 10px 0;
+    margin: 10px;
     cursor: pointer;
   }
   

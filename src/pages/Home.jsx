@@ -6,12 +6,30 @@ import Title from "../components/Title";
 function Home() {
   return (
     <div className="home">
-      <Title />
+      <Grid
+        style={{
+          backgroundColor: "#364e68",
+          opacity: "0.7",
+          borderRadius: "10px",
+          boxShadow: "0 0 5px 0 rgba(0, 0, 0, 0.9)",
+        }}
+      >
+        <Title />
+      </Grid>
       <Grid container spacing={2}>
-        <Grid item xs={1}>
+        <Grid
+          item
+          xs={2}
+          style={{
+            backgroundColor: "#364e68",
+            opacity: "0.7",
+            borderRadius: "10px",
+            boxShadow: "0 0 5px 0 rgba(0, 0, 0, 0.9)",
+          }}
+        >
           <EventDropdown />
         </Grid>
-        <Grid item xs={11}>
+        <Grid item xs={10}>
           <Calendar />
         </Grid>
       </Grid>

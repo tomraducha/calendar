@@ -11,6 +11,7 @@ function EventDropdown() {
       eventData: function (eventEl) {
         return {
           title: eventEl.innerText,
+          id: eventEl.id,
         };
       },
     });
@@ -26,17 +27,24 @@ function EventDropdown() {
     <div id="external-events" ref={draggableEl}>
       <h3>Événements</h3>
       <Select
+        styles={{
+          control: (baseStyles, state) => ({
+            ...baseStyles,
+            borderColor: state.isFocused ? "grey" : "black",
+          }),
+        }}
         options={eventOptions}
         components={{
-          Option: ({ children, innerRef, innerProps }) => {
+          Option: ({ data, innerRef, innerProps }) => {
             return (
               <div
+                id={data.value}
                 ref={innerRef}
                 {...innerProps}
                 className="fc-event"
                 style={{ cursor: "move" }}
               >
-                {children}
+                {data.label}
               </div>
             );
           },
