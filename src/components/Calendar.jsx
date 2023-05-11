@@ -6,7 +6,12 @@ import { useState } from "react";
 
 function Calendar() {
   const [events, setEvents] = useState([]);
-  console.log("🚀 ~ file: Calendar.jsx:9 ~ Calendar ~ events:", events);
+
+  const headerOptions = {
+    left: "prev,next today",
+    center: "title",
+    right: "dayGridMonth,timeGridWeek,timeGridDay",
+  };
 
   function handleEventReceive(info) {
     const newEvent = {
@@ -16,7 +21,7 @@ function Calendar() {
       id: info.event.id,
       allDay: true,
     };
-    setEvents(events.concat(newEvent));
+    setEvents((prevEvents) => [...prevEvents, newEvent]);
   }
 
   function handleDateSelect(selectInfo) {
@@ -24,14 +29,15 @@ function Calendar() {
     let calendarApi = selectInfo.view.calendar;
     calendarApi.unselect();
     if (title) {
-      const eventSelect = calendarApi.addEvent({
+      const newEvent = {
         id: Date.now(),
         title,
         start: selectInfo.startStr,
         end: selectInfo.endStr,
         allDay: selectInfo.allDay,
-      });
-      setEvents(eventSelect);
+      };
+      calendarApi.addEvent(newEvent);
+      setEvents((prevEvents) => [...prevEvents, newEvent]);
     }
   }
 
@@ -39,11 +45,7 @@ function Calendar() {
     <div className="full-calendar">
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
-        headerToolbar={{
-          left: "prev,next today",
-          center: "title",
-          right: "dayGridMonth,timeGridWeek,timeGridDay",
-        }}
+        headerToolbar={headerOptions}
         initialView="dayGridMonth"
         editable={true}
         droppable={true}
@@ -51,7 +53,6 @@ function Calendar() {
         select={handleDateSelect}
         events={events}
         eventReceive={handleEventReceive}
-        // dayCellContent={handleDayCellContent}
         hiddenDays={[0, 6]}
       />
     </div>
