@@ -49,12 +49,38 @@ a {
   border-radius: 10px;
 }
 
-
-
-
-
 #external-events .fc-event {
     margin: 10px;
     cursor: pointer;
-  }
-  
+}
+
+.fc-event.fc-event-draggable.fc-event-resizable{
+    background-color: #364e68;
+    border-color: #364e68;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+    font-weight: bold;
+}
+
+.fc-event.fc-h-event{
+    background-color: #364e68;
+    border-color: #364e68;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
+    padding: 5px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.fc-event.fc-event-draggable.fc-event-resizable{
+    background-color: #364e68;
+    border-color: #364e68;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
+    padding: 5px;
+    font-weight: bold;
+    color: #ffffff;
+}
