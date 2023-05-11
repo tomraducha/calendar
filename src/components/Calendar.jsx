@@ -30,10 +30,10 @@ function Calendar() {
     calendarApi.unselect();
     if (title) {
       const newEvent = {
-        id: Date.now(),
         title,
         start: selectInfo.startStr,
         end: selectInfo.endStr,
+        id: Date.now(),
         allDay: selectInfo.allDay,
       };
       calendarApi.addEvent(newEvent);
@@ -46,14 +46,15 @@ function Calendar() {
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
         headerToolbar={headerOptions}
-        initialView="dayGridMonth"
-        editable={true}
-        droppable={true}
-        selectable={true}
-        select={handleDateSelect}
         events={events}
+        select={handleDateSelect}
         eventReceive={handleEventReceive}
         hiddenDays={[0, 6]}
+        initialView="dayGridMonth"
+        editable
+        droppable
+        selectable
+        dayMaxEvents
       />
     </div>
   );
