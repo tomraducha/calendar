@@ -6,8 +6,9 @@ import { useState } from "react";
 
 function Calendar() {
   const [events, setEvents] = useState([]);
+  console.log("🚀 ~ file: Calendar.jsx:9 ~ Calendar ~ events:", events);
 
-  const handleEventReceive = (info) => {
+  function handleEventReceive(info) {
     const newEvent = {
       title: info.event.title,
       start: info.event.start,
@@ -16,7 +17,23 @@ function Calendar() {
       allDay: true,
     };
     setEvents(events.concat(newEvent));
-  };
+  }
+
+  function handleDateSelect(selectInfo) {
+    let title = prompt("Veuillez entrer le titre de l'événement");
+    let calendarApi = selectInfo.view.calendar;
+    calendarApi.unselect();
+    if (title) {
+      const eventSelect = calendarApi.addEvent({
+        id: Date.now(),
+        title,
+        start: selectInfo.startStr,
+        end: selectInfo.endStr,
+        allDay: selectInfo.allDay,
+      });
+      setEvents(eventSelect);
+    }
+  }
 
   return (
     <div className="full-calendar">
@@ -30,8 +47,12 @@ function Calendar() {
         initialView="dayGridMonth"
         editable={true}
         droppable={true}
+        selectable={true}
+        select={handleDateSelect}
         events={events}
         eventReceive={handleEventReceive}
+        // dayCellContent={handleDayCellContent}
+        hiddenDays={[0, 6]}
       />
     </div>
   );
