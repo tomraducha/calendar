@@ -1,0 +1,97 @@
+html, body, #root, .App {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+.home{
+    background-color: rgb(242, 242, 242);
+}
+
+h1{
+    text-align: center;
+    color:  rgb(255, 255, 255);
+    font-size: 40px;
+}
+
+h2 {
+    color: #364e68;
+}
+
+h3 {
+    color: #ffffff;
+    text-align: center;
+}
+:root {
+    --fc-border-color: #364e68;
+}
+
+a {
+    color: #364e68;
+}
+
+.fc-theme-standard .fc-scrollgrid {
+    border: 10px solid var(--fc-border-color);
+    box-shadow: 1px 1px 5px 0 rgb(14, 13, 13);
+    border-color: rgb(255, 255, 255);
+}
+
+.fc .fc-col-header-cell-cushion {
+  padding: 5px;
+}
+
+.full-calendar {
+  width: 70%;
+  padding: 30px;
+  margin: 10px auto;
+  background: white;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+  border-radius: 10px;
+}
+
+#external-events .fc-event {
+    margin: 10px;
+    cursor: pointer;
+}
+
+.fc-event.fc-event-draggable.fc-event-resizable{
+    background-color: #364e68;
+    border-color: #364e68;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+    font-weight: bold;
+}
+
+.fc-event.fc-h-event{
+    background-color: #364e68;
+    border-color: #364e68;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
+    padding: 5px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.fc-event.fc-event-draggable.fc-event-resizable{
+    background-color: #364e68;
+    border-color: #364e68;
+    border-radius: 5px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.4);
+    padding: 5px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+
+
+.home .grid-background {
+    background-color: #364e68;
+    opacity: 0.7;
+    border-radius: 10px;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.9);
+}
+
+  
