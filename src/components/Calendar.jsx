@@ -14,10 +14,12 @@ function Calendar() {
   };
 
   function handleEventReceive(info) {
+    // Add one hour to start time to get end time
+    const infoEventEnd = new Date(info.event.start.getTime() + 60 * 60 * 1000);
     const newEvent = {
       title: info.event.title,
       start: info.event.start,
-      end: new Date(info.event.start.getTime() + 60 * 60 * 1000),
+      end: infoEventEnd,
       id: info.event.id,
       allDay: true,
     };
