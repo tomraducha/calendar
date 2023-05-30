@@ -1,11 +1,14 @@
+import { useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { useState } from "react";
+import PopupEvent from "./PopupEvent";
 
-function Calendar() {
+const Calendar = () => {
   const [events, setEvents] = useState([]);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   const headerOptions = {
     left: "prev,next today",
@@ -43,12 +46,18 @@ function Calendar() {
     }
   }
 
+  function handleEventClick(info) {
+    setOpenPopup(true);
+    setSelectedEvent(info.event);
+  }
+
   return (
     <div className="full-calendar">
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin, timeGridPlugin]}
         headerToolbar={headerOptions}
         events={events}
+        eventClick={handleEventClick}
         select={handleDateSelect}
         eventReceive={handleEventReceive}
         hiddenDays={[0, 6]}
@@ -58,8 +67,11 @@ function Calendar() {
         selectable
         dayMaxEvents
       />
+      {openPopup && (
+        <PopupEvent event={selectedEvent} setOpenPopup={setOpenPopup} />
+      )}
     </div>
   );
-}
+};
 
 export default Calendar;
