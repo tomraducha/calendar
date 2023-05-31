@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
@@ -9,12 +9,18 @@ const Calendar = () => {
   const [events, setEvents] = useState([]);
   const [openPopup, setOpenPopup] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
-
+  const calendarRef = useRef(null);
   const headerOptions = {
     left: "prev,next today",
     center: "title",
     right: "dayGridMonth,timeGridWeek,timeGridDay",
   };
+
+  useEffect(() => {
+    const calendarApi = calendarRef.current.getApi();
+    calendarApi.removeAllEvents();
+    events.forEach((event) => calendarApi.addEvent(event));
+  }, [events]);
 
   function handleEventReceive(info) {
     // Add one hour to start time to get end time
@@ -26,6 +32,7 @@ const Calendar = () => {
       id: info.event.id,
       allDay: true,
     };
+
     setEvents((prevEvents) => [...prevEvents, newEvent]);
   }
 
@@ -51,6 +58,17 @@ const Calendar = () => {
     setSelectedEvent(info.event);
   }
 
+  function updateEvent(updatedEvent) {
+    setEvents((prevEvents) =>
+      prevEvents.map((event) => {
+        if (event.id === updatedEvent.id) {
+          return updatedEvent;
+        }
+        return event;
+      })
+    );
+  }
+
   return (
     <div className="full-calendar">
       <FullCalendar
@@ -60,6 +78,7 @@ const Calendar = () => {
         eventClick={handleEventClick}
         select={handleDateSelect}
         eventReceive={handleEventReceive}
+        ref={calendarRef}
         hiddenDays={[0, 6]}
         initialView="dayGridMonth"
         editable
@@ -68,7 +87,11 @@ const Calendar = () => {
         dayMaxEvents
       />
       {openPopup && (
-        <PopupEvent event={selectedEvent} setOpenPopup={setOpenPopup} />
+        <PopupEvent
+          event={selectedEvent}
+          setOpenPopup={setOpenPopup}
+          updateEvent={updateEvent}
+        />
       )}
     </div>
   );

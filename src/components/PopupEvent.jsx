@@ -2,81 +2,95 @@ import { useEffect, useState } from "react";
 import {
   Button,
   Dialog,
-  DialogActions,
-  DialogContent,
   DialogTitle,
+  DialogContent,
+  DialogActions,
   TextField,
 } from "@mui/material";
 import PropTypes from "prop-types";
 
-function PopupEvent({ event, setOpenPopup }) {
-  const [open, setOpen] = useState(!!event);
-  const [eventName, setEventName] = useState(event ? event.title : "");
-  const [eventDate, setEventDate] = useState(event ? event.start : "");
-  const [eventTime, setEventTime] = useState(event ? event.start : "");
+function PopupEvent({ event, setOpenPopup, updateEvent }) {
+  const [open, setOpen] = useState(event ? true : false);
 
-  const handleClose = () => {
-    setOpen(false);
-    setOpenPopup(false);
-
-    if (event) {
-      event.setProp("title", eventName);
-      event.setStart(eventDate + "T" + eventTime);
-      event.setEnd(eventDate + "T" + eventTime);
-    }
-  };
+  const [title, setTitle] = useState(event ? event.title : "");
+  const [start, setStart] = useState(event ? event.start : new Date());
+  const [end, setEnd] = useState(event ? event.end : new Date());
 
   useEffect(() => {
     if (event) {
       setOpen(true);
-      setEventName(event.title);
-      setEventDate(event.start);
-      setEventTime(event.start);
+      setTitle(event.title);
+      setStart(new Date(event.start));
+      setEnd(new Date(event.end));
     } else {
       setOpen(false);
-      setEventName("");
-      setEventDate("");
-      setEventTime("");
     }
   }, [event]);
 
+  function handleClose() {
+    setOpen(false);
+    setOpenPopup(false);
+  }
+  function handleSave() {
+    // create a new event object with the updated values
+    const updatedEvent = {
+      id: parseInt(event.id),
+      title: title,
+      start: new Date(start),
+      end: new Date(end),
+      allDay: event.allDay,
+    };
+    console.log(
+      "🚀 ~ file: PopupEvent.jsx:43 ~ handleSave ~ updatedEvent:",
+      updatedEvent
+    );
+
+    // update the event in the parent component
+    updateEvent(updatedEvent);
+
+    handleClose();
+  }
+
   return (
     <div>
+      z
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Modifier l'événement</DialogTitle>
         <DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Fermer
-            </Button>
-          </DialogActions>
           <TextField
             autoFocus
             margin="dense"
-            id="name"
-            label="Nom de l'événement"
+            label="Titre"
             type="text"
-            value={eventName}
-            onChange={(e) => setEventName(e.target.value)}
             fullWidth
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
           <TextField
-            id="date"
-            label="Date"
-            type="date"
-            value={eventDate}
-            onChange={(e) => setEventDate(e.target.value)}
+            margin="dense"
+            label="Début"
+            type="datetime-local"
             fullWidth
+            value={start.toISOString().substring(0, 16)}
+            onChange={(e) => setStart(new Date(e.target.value))}
           />
           <TextField
-            id="time"
-            label="Heure"
-            type="time"
-            value={eventTime}
-            onChange={(e) => setEventTime(e.target.value)}
+            margin="dense"
+            label="Fin"
+            type="datetime-local"
             fullWidth
+            value={end.toISOString().substring(0, 16)}
+            onChange={(e) => setEnd(new Date(e.target.value))}
           />
         </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Annuler
+          </Button>
+          <Button onClick={handleSave} color="primary">
+            Sauvegarder
+          </Button>
+        </DialogActions>
       </Dialog>
     </div>
   );
@@ -85,6 +99,7 @@ function PopupEvent({ event, setOpenPopup }) {
 PopupEvent.propTypes = {
   event: PropTypes.object,
   setOpenPopup: PropTypes.func,
+  updateEvent: PropTypes.func,
 };
 
 export default PopupEvent;
