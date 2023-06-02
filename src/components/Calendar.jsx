@@ -17,34 +17,27 @@ const Calendar = () => {
     right: "dayGridMonth,timeGridWeek,timeGridDay",
   };
 
-  /**
-   * Traite la réception d'un événement.
-   * Cette fonction ajoute une heure à l'heure de début pour obtenir l'heure de fin.
-   * Elle crée ensuite un nouvel événement avec ces informations et l'ajoute à la liste des événements.
-   *
-   * @param {object} info - Informations sur l'événement reçu.
-   */
+  function formatDateISOToYYYYMMDD(dateISO) {
+    const date = new Date(dateISO);
+    const year = date.getFullYear();
+    const month = ("0" + (date.getMonth() + 1)).slice(-2); // months are 0-indexed in JS
+    const day = ("0" + date.getDate()).slice(-2);
+
+    return `${year}-${month}-${day}`;
+  }
+
   function handleEventReceive(info) {
     // Add one hour to start time to get end time
     const infoEventEnd = new Date(info.event.start.getTime() + 60 * 60 * 1000);
 
-    const startDate = info.event.start;
-    const formattedStartDate = `${startDate.getFullYear()}-${(
-      "0" +
-      (startDate.getMonth() + 1)
-    ).slice(-2)}-${("0" + startDate.getDate()).slice(-2)}`;
-
-    const formattedEndDate = `${infoEventEnd.getFullYear()}-${(
-      "0" +
-      (infoEventEnd.getMonth() + 1)
-    ).slice(-2)}-${("0" + infoEventEnd.getDate()).slice(-2)}`;
+    const formattedStartDate = formatDateISOToYYYYMMDD(info.event.start);
+    const formattedEndDate = formatDateISOToYYYYMMDD(infoEventEnd);
 
     const newEvent = {
       title: info.event.title,
       start: formattedStartDate,
       end: formattedEndDate,
       id: info.event.id,
-      allDay: true,
       durationEditable: true,
     };
     setEvents((prevEvents) => {
@@ -61,52 +54,34 @@ const Calendar = () => {
     });
   }
 
-  /**
-   * Traite la sélection d'une date.
-   * Cette fonction ouvre une boîte de dialogue invitant l'utilisateur à entrer un titre pour l'événement.
-   * Si un titre est fourni, elle crée un nouvel événement avec ce titre, les dates de début et de fin sélectionnées et l'ajoute à la liste des événements.
-   *
-   * @param {object} selectInfo - Informations sur la date sélectionnée.
-   */
   function handleDateSelect(selectInfo) {
     let title = prompt("Veuillez entrer le titre de l'événement");
     let calendarApi = selectInfo.view.calendar;
     calendarApi.unselect();
 
     if (title) {
+      const formattedStart = formatDateISOToYYYYMMDD(selectInfo.startStr);
+      const formattedEnd = formatDateISOToYYYYMMDD(selectInfo.endStr);
+
       const newEvent = {
         title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
+        start: formattedStart,
+        end: formattedEnd,
         id: Date.now().toString(),
-        allDay: selectInfo.allDay,
       };
       setEvents((prevEvents) => [...prevEvents, newEvent]);
     }
   }
 
-  /**
-   * Traite le redimensionnement d'un événement.
-   * Cette fonction récupère la nouvelle date de fin après le redimensionnement, la formate puis met à jour la date de fin de l'événement correspondant dans la liste des événements.
-   * Les logs sont utilisés pour tracer l'opération.
-   *
-   * @param {object} info - Informations sur l'événement redimensionné.
-   */
   function handleEventResize(info) {
-    const endDate = info.event._instance.range.end;
-    const formattedEndDate = `${endDate.getFullYear()}-${(
-      "0" +
-      (endDate.getMonth() + 1)
-    ).slice(-2)}-${("0" + endDate.getDate()).slice(-2)}`;
+    const formattedEndDate = formatDateISOToYYYYMMDD(info.event.end);
 
-    console.log("formattedEndDate", formattedEndDate);
     const resizedEventId = info.event.id;
 
     setEvents((prevEvents) => {
       return prevEvents.map((event) => {
         const eventId = event.id;
         if (eventId === resizedEventId) {
-          console.log("maj");
           return {
             ...event,
             end: formattedEndDate,
@@ -138,16 +113,23 @@ const Calendar = () => {
     const draggedEventId = draggedEvent.id;
 
     const startDate = draggedEvent.start;
-    const formattedStartDate = `${startDate.getFullYear()}-${(
-      "0" +
-      (startDate.getMonth() + 1)
-    ).slice(-2)}-${("0" + startDate.getDate()).slice(-2)}`;
-
     const endDate = draggedEvent.end;
-    const formattedEndDate = `${endDate.getFullYear()}-${(
-      "0" +
-      (endDate.getMonth() + 1)
-    ).slice(-2)}-${("0" + endDate.getDate()).slice(-2)}`;
+
+    if (!startDate || !endDate) {
+      console.error("La date de début ou de fin est null");
+      return;
+    }
+
+    let formattedStartDate;
+    let formattedEndDate;
+
+    try {
+      formattedStartDate = formatDateISOToYYYYMMDD(startDate);
+      formattedEndDate = formatDateISOToYYYYMMDD(endDate);
+    } catch (error) {
+      console.error("Erreur lors du formatage des dates", error);
+      return;
+    }
 
     setEvents((prevEvents) => {
       return prevEvents.map((event) => {
