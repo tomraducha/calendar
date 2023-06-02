@@ -44,7 +44,6 @@ function PopupEvent({ event, setOpenPopup, updateEvent }) {
       start: formatDate(new Date(start)),
       end: formatDate(new Date(end)),
       id: event.id,
-      allDay: event.allDay,
     };
     console.log(
       "🚀 ~ file: PopupEvent.jsx:42 ~ handleSave ~ updatedEvent:",
