@@ -11,7 +11,6 @@ import PropTypes from "prop-types";
 
 function PopupEvent({ event, setOpenPopup, updateEvent }) {
   const [open, setOpen] = useState(event ? true : false);
-
   const [title, setTitle] = useState(event ? event.title : "");
   const [start, setStart] = useState(event ? event.start : new Date());
   const [end, setEnd] = useState(event ? event.end : new Date());
@@ -31,23 +30,29 @@ function PopupEvent({ event, setOpenPopup, updateEvent }) {
     setOpen(false);
     setOpenPopup(false);
   }
+
+  function formatDate(date) {
+    return `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${(
+      "0" + date.getDate()
+    ).slice(-2)}`;
+  }
+
   function handleSave() {
     // create a new event object with the updated values
     const updatedEvent = {
-      id: parseInt(event.id),
       title: title,
-      start: new Date(start),
-      end: new Date(end),
+      start: formatDate(new Date(start)),
+      end: formatDate(new Date(end)),
+      id: event.id,
       allDay: event.allDay,
     };
     console.log(
-      "🚀 ~ file: PopupEvent.jsx:43 ~ handleSave ~ updatedEvent:",
+      "🚀 ~ file: PopupEvent.jsx:42 ~ handleSave ~ updatedEvent:",
       updatedEvent
     );
 
     // update the event in the parent component
     updateEvent(updatedEvent);
-
     handleClose();
   }
 
