@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Draggable } from "@fullcalendar/interaction";
 import Select from "react-select";
-import { eventOptions } from "../data/eventOptions";
+import { eventOptions } from "../../data/eventOptions";
 import PropTypes from "prop-types";
 function EventDropdown() {
   const draggableEl = useRef(null);

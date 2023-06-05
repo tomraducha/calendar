@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
-import Calendar from "../components/Calendar";
-import EventDropdown from "../components/EventDropdown";
-import Title from "../components/Title";
+import EventDropdown from "../components/EventDropdown/EventDropdown";
+import Title from "../components/Title/Title";
+import Calendar from "../components/Calendar/Calendar";
 
 function Home() {
   return (
