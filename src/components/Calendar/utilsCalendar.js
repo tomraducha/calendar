@@ -1,19 +1,4 @@
-// utilsCalendar.js
-import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import timeGridPlugin from "@fullcalendar/timegrid";
-
-const HEADER_OPTIONS = {
-  left: "prev,next today",
-  center: "title",
-  right: "dayGridMonth,timeGridWeek,timeGridDay",
-};
-
-const PLUGINS = [dayGridPlugin, interactionPlugin, timeGridPlugin];
-const HIDDEN_DAYS = [0, 6];
-const INITIAL_VIEW = "dayGridMonth";
-
-function handleEventChange(info) {
+function eventChange(info) {
   return (prevEvents) =>
     prevEvents.map((event) => {
       if (event.id === info.event.id) {
@@ -29,7 +14,7 @@ function handleEventChange(info) {
     });
 }
 
-function handleEventReceive(info) {
+function eventReceive(info) {
   const newEvent = {
     title: info.event.title,
     start: info.startStr,
@@ -49,7 +34,7 @@ function handleEventReceive(info) {
   };
 }
 
-function handleDateSelect(selectInfo) {
+function dateSelect(selectInfo) {
   let title = prompt("Veuillez entrer le titre de l'événement");
   let calendarApi = selectInfo.view.calendar;
   calendarApi.unselect();
@@ -67,12 +52,4 @@ function handleDateSelect(selectInfo) {
   }
 }
 
-export {
-  HEADER_OPTIONS,
-  PLUGINS,
-  HIDDEN_DAYS,
-  INITIAL_VIEW,
-  handleEventChange,
-  handleEventReceive,
-  handleDateSelect,
-};
+export { eventChange, eventReceive, dateSelect };

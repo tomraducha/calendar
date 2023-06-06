@@ -94,4 +94,12 @@ a {
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.9);
 }
 
+.recurring-event {
+    background: linear-gradient(to bottom, rgba(155,255,130,1) 0%, rgb(240, 253, 237) 100%);
+  }
+  
+  .special-event{
+    background: linear-gradient(to bottom, rgb(253, 55, 55) 0%, rgb(253, 186, 186) 100%);
+  }
+  
   

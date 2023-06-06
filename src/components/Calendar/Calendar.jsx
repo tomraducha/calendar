@@ -1,15 +1,14 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
+import { dateSelect, eventChange, eventReceive } from "./UtilsCalendar";
+import PopupEvent from "../PopupEvent/PopupEvent";
+import { getRecurringEvents, getSpecialEvents } from "./utilsApi";
 import {
   HEADER_OPTIONS,
   HIDDEN_DAYS,
   INITIAL_VIEW,
   PLUGINS,
-  handleDateSelect,
-  handleEventChange,
-  handleEventReceive,
-} from "./UtilsCalendar";
-import PopupEvent from "../PopupEvent/PopupEvent";
+} from "./utilsOption";
 
 function Calendar() {
   const [events, setEvents] = useState([]);
@@ -18,20 +17,28 @@ function Calendar() {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const calendarRef = useRef(null);
 
+  useEffect(() => {
+    Promise.all([getRecurringEvents(), getSpecialEvents()]).then(
+      ([recurringEvents, specialEvents]) => {
+        setEvents([...recurringEvents, ...specialEvents]);
+      }
+    );
+  }, []);
+
   function handleEventResize(info) {
-    setEvents(handleEventChange(info));
+    setEvents(eventChange(info));
   }
 
   function handleEventDrop(info) {
-    setEvents(handleEventChange(info));
+    setEvents(eventChange(info));
   }
 
-  function handleNewEventReceive(info) {
-    setEvents(handleEventReceive(info));
+  function handleEventReceive(info) {
+    setEvents(eventReceive(info));
   }
 
-  function handleNewDateSelect(info) {
-    const newEvents = handleDateSelect(info);
+  function handleDateSelect(info) {
+    const newEvents = dateSelect(info);
     if (newEvents) {
       setEvents(newEvents);
     }
@@ -65,8 +72,8 @@ function Calendar() {
         eventClick={handleEventClick}
         eventResize={handleEventResize}
         eventDrop={handleEventDrop}
-        eventReceive={handleNewEventReceive}
-        select={handleNewDateSelect}
+        eventReceive={handleEventReceive}
+        dateSelect={handleDateSelect}
         editable
         droppable
         selectable
