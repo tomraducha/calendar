@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import PropTypes from "prop-types";
 import FullCalendar from "@fullcalendar/react";
 import { dateSelect, eventChange, eventReceive } from "./UtilsCalendar";
 import PopupEvent from "../PopupEvent/PopupEvent";
@@ -10,9 +11,7 @@ import {
   PLUGINS,
 } from "./utilsOption";
 
-function Calendar() {
-  const [events, setEvents] = useState([]);
-  console.log("🚀 ~ file: Calendar.jsx:10 ~ Calendar ~ events:", events);
+function Calendar({ events, setEvents }) {
   const [openPopup, setOpenPopup] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const calendarRef = useRef(null);
@@ -60,6 +59,15 @@ function Calendar() {
     );
   }
 
+  function renderEventContent(eventInfo) {
+    return (
+      <div>
+        <p>{eventInfo.event.extendedProps.light}</p>
+        <p>{eventInfo.event.title}</p>
+      </div>
+    );
+  }
+
   return (
     <div className="full-calendar">
       <FullCalendar
@@ -74,6 +82,7 @@ function Calendar() {
         eventDrop={handleEventDrop}
         eventReceive={handleEventReceive}
         dateSelect={handleDateSelect}
+        eventContent={renderEventContent}
         editable
         droppable
         selectable
@@ -89,5 +98,10 @@ function Calendar() {
     </div>
   );
 }
+
+Calendar.propTypes = {
+  events: PropTypes.array,
+  setEvents: PropTypes.func,
+};
 
 export default Calendar;

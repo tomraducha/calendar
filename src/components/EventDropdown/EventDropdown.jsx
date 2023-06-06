@@ -1,9 +1,8 @@
 import { useEffect, useRef } from "react";
 import { Draggable } from "@fullcalendar/interaction";
 import Select from "react-select";
-import { eventOptions } from "../../data/eventOptions";
 import PropTypes from "prop-types";
-function EventDropdown() {
+function EventDropdown({ events }) {
   const draggableEl = useRef(null);
 
   useEffect(() => {
@@ -18,6 +17,13 @@ function EventDropdown() {
     });
   }, []);
 
+  const options = events
+    .filter((event) => event.title)
+    .map((event) => ({
+      value: event.id,
+      label: event.title,
+    }));
+
   return (
     <div id="external-events" ref={draggableEl}>
       <h3>Events</h3>
@@ -30,7 +36,7 @@ function EventDropdown() {
             margin: "0.4rem",
           }),
         }}
-        options={eventOptions}
+        options={options}
         components={{
           Option: ({ data, innerRef, innerProps }) => {
             return (
@@ -53,6 +59,7 @@ function EventDropdown() {
 
 EventDropdown.propTypes = {
   data: PropTypes.array,
+  events: PropTypes.array,
   innerRef: PropTypes.func,
   innerProps: PropTypes.object,
 };

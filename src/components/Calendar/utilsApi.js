@@ -3,7 +3,6 @@ const password = import.meta.env.VITE_PASSWORD;
 const authString = username + ":" + password;
 const encodedAuthString = btoa(authString);
 
-// Convert the day into a number (0 = Sunday, 1 = Monday, etc.)
 const dayOfWeekMap = {
   sunday: 0,
   monday: 1,
@@ -13,6 +12,30 @@ const dayOfWeekMap = {
   friday: 5,
   saturday: 6,
 };
+
+function checkDataValue(dataValue) {
+  if (dataValue === true) {
+    return "LightOn";
+  } else {
+    return "LightOff";
+  }
+}
+
+function checkLightOffSpecialEvent(dataValue) {
+  if (dataValue === false) {
+    return ["special-event-off"];
+  } else {
+    return ["special-event"];
+  }
+}
+
+function checkLightOffRecurringEvent(dataValue) {
+  if (dataValue === false) {
+    return ["recurring-event-off"];
+  } else {
+    return ["recurring-event"];
+  }
+}
 
 async function getRecurringEvents() {
   const response = await fetch(
@@ -34,8 +57,10 @@ async function getRecurringEvents() {
       startTime: eventData.startTime,
       endTime: eventData.endTime,
       id: eventData.id,
-      color: "rgba(155,255,130,1)",
-      className: ["recurring-event"],
+      light: checkDataValue(eventData.dataValue),
+      dataValue: eventData.dataValue,
+      color: "rgba(155,255,130,0.8)",
+      className: checkLightOffRecurringEvent(eventData.dataValue),
       textColor: "black",
     };
   });
@@ -62,9 +87,11 @@ async function getSpecialEvents() {
       start: eventData.startDate,
       end: eventData.endDate,
       id: eventData.id,
-      color: "rgba(255,0,0,1)",
+      light: checkDataValue(eventData.dataValue),
+      dataValue: eventData.dataValue,
+      color: "rgba(174, 245, 39, 0.8)",
       textColor: "black",
-      className: ["special-event"],
+      className: checkLightOffSpecialEvent(eventData.dataValue),
     };
   });
   return events;
