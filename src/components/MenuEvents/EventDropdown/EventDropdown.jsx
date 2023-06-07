@@ -1,8 +1,6 @@
 import Select from "react-select";
 import PropTypes from "prop-types";
 import InfoEvents from "../InfoEvents/InfoEvents";
-import CreateEventsButton from "../CreateEventsButton/CreateEventsButton";
-import { StyledButtonContainer } from "../CreateEventsButton/style";
 import { StyledTypography } from "../InfoEvents/style";
 function EventDropdown({ events }) {
   const options = events
@@ -14,9 +12,6 @@ function EventDropdown({ events }) {
 
   return (
     <>
-      <StyledButtonContainer>
-        <CreateEventsButton />
-      </StyledButtonContainer>
       <StyledTypography>Events</StyledTypography>
       <Select
         styles={{

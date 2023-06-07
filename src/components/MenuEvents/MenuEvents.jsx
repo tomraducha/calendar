@@ -1,10 +1,11 @@
 import { useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 import { Draggable } from "@fullcalendar/interaction";
+import EventDropdown from "./EventDropdown/EventDropdown";
 import CreateEventsButton from "./CreateEventsButton/CreateEventsButton";
 import { StyledButtonContainer } from "./CreateEventsButton/style";
-import EventDropdown from "./EventDropdown/EventDropdown";
 
-function Menu() {
+function MenuEvents({ events }) {
   const draggableEl = useRef(null);
 
   useEffect(() => {
@@ -24,10 +25,14 @@ function Menu() {
         <CreateEventsButton />
       </StyledButtonContainer>
       <div id="menu-events" ref={draggableEl}>
-        <EventDropdown />
+        <EventDropdown events={events} />
       </div>
     </>
   );
 }
 
-export default Menu;
+EventDropdown.propTypes = {
+  events: PropTypes.array,
+};
+
+export default MenuEvents;

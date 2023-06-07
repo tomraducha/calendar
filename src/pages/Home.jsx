@@ -6,7 +6,7 @@ import {
   getRecurringEvents,
   getSpecialEvents,
 } from "../components/Calendar/utilsApi";
-import EventDropdown from "../components/Menu/EventDropdown/EventDropdown";
+import MenuEvents from "../components/MenuEvents/MenuEvents";
 
 function Home() {
   const [events, setEvents] = useState([]);
@@ -25,7 +25,7 @@ function Home() {
       </Grid>
       <Grid container spacing={2} className="grid-container">
         <Grid item xs={2} className="grid-background">
-          <EventDropdown events={events} />
+          <MenuEvents events={events} />
         </Grid>
         <Grid item xs={10}>
           <Calendar events={events} setEvents={setEvents} />
