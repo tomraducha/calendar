@@ -1,7 +1,11 @@
 const username = import.meta.env.VITE_USERNAME;
 const password = import.meta.env.VITE_PASSWORD;
+const url = import.meta.env.VITE_BASE_URL;
+const scheduleId = import.meta.env.VITE_SCHEDULE_ID;
 const authString = username + ":" + password;
 const encodedAuthString = btoa(authString);
+const urlReccuringEvents = `${url}/v2/schedule/${scheduleId}/recurringEvents`;
+const urlSpecialEvents = `${url}/v2/schedule/${scheduleId}/specialEvents`;
 
 const dayOfWeekMap = {
   sunday: 0,
@@ -38,16 +42,13 @@ function checkLightOffRecurringEvent(dataValue) {
 }
 
 async function getRecurringEvents() {
-  const response = await fetch(
-    "https://192.168.6.125:443/v2/schedule/N0TgJscHAN5X6f96TkjqO/recurringEvents",
-    {
-      method: "GET",
-      headers: {
-        mode: "cors",
-        Authorization: "Basic " + encodedAuthString,
-      },
-    }
-  );
+  const response = await fetch(urlReccuringEvents, {
+    method: "GET",
+    headers: {
+      mode: "cors",
+      Authorization: "Basic " + encodedAuthString,
+    },
+  });
   const data = await response.json();
 
   const events = data.map((eventData) => {
@@ -68,16 +69,13 @@ async function getRecurringEvents() {
 }
 
 async function getSpecialEvents() {
-  const response = await fetch(
-    "https://192.168.6.125:443/v2/schedule/N0TgJscHAN5X6f96TkjqO/specialEvents",
-    {
-      method: "GET",
-      headers: {
-        mode: "cors",
-        Authorization: "Basic " + encodedAuthString,
-      },
-    }
-  );
+  const response = await fetch(urlSpecialEvents, {
+    method: "GET",
+    headers: {
+      mode: "cors",
+      Authorization: "Basic " + encodedAuthString,
+    },
+  });
   const data = await response.json();
 
   const events = data.map((eventData) => {
@@ -98,17 +96,14 @@ async function getSpecialEvents() {
 }
 
 async function addSpecialEvent(event) {
-  const response = await fetch(
-    "https://192.168.6.125:443/v2/schedule/N0TgJscHAN5X6f96TkjqO/specialEvents",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + encodedAuthString,
-      },
-      body: JSON.stringify(event),
-    }
-  );
+  const response = await fetch(urlSpecialEvents, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Basic " + encodedAuthString,
+    },
+    body: JSON.stringify(event),
+  });
   const data = await response.json();
   return data;
 }
