@@ -31,7 +31,7 @@ function MenuEvents({ events }) {
   );
 }
 
-EventDropdown.propTypes = {
+MenuEvents.propTypes = {
   events: PropTypes.array,
 };
 
