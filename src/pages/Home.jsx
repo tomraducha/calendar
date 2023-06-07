@@ -1,5 +1,4 @@
 import { Grid } from "@mui/material";
-import EventDropdown from "../components/EventDropdown/EventDropdown";
 import Title from "../components/Title/Title";
 import Calendar from "../components/Calendar/Calendar";
 import { useEffect, useState } from "react";
@@ -7,6 +6,7 @@ import {
   getRecurringEvents,
   getSpecialEvents,
 } from "../components/Calendar/utilsApi";
+import EventDropdown from "../components/Menu/EventDropdown/EventDropdown";
 
 function Home() {
   const [events, setEvents] = useState([]);
