@@ -97,4 +97,20 @@ async function getSpecialEvents() {
   return events;
 }
 
-export { getRecurringEvents, getSpecialEvents };
+async function addSpecialEvent(event) {
+  const response = await fetch(
+    "https://192.168.6.125:443/v2/schedule/N0TgJscHAN5X6f96TkjqO/specialEvents",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + encodedAuthString,
+      },
+      body: JSON.stringify(event),
+    }
+  );
+  const data = await response.json();
+  return data;
+}
+
+export { getRecurringEvents, getSpecialEvents, addSpecialEvent };

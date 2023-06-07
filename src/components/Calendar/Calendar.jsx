@@ -3,7 +3,11 @@ import PropTypes from "prop-types";
 import FullCalendar from "@fullcalendar/react";
 import { dateSelect, eventChange, eventReceive } from "./UtilsCalendar";
 import PopupEvent from "../PopupEvent/PopupEvent";
-import { getRecurringEvents, getSpecialEvents } from "./utilsApi";
+import {
+  // addSpecialEvent,
+  getRecurringEvents,
+  getSpecialEvents,
+} from "./utilsApi";
 import {
   HEADER_OPTIONS,
   HIDDEN_DAYS,
@@ -11,7 +15,9 @@ import {
   PLUGINS,
 } from "./utilsOption";
 
-function Calendar({ events, setEvents }) {
+function Calendar() {
+  const [events, setEvents] = useState([]);
+  console.log("🚀 ~ file: Calendar.jsx:20 ~ Calendar ~ events:", events);
   const [openPopup, setOpenPopup] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const calendarRef = useRef(null);
@@ -37,6 +43,7 @@ function Calendar({ events, setEvents }) {
   }
 
   function handleDateSelect(info) {
+    console.log("🚀 ~ file: Calendar.jsx:44 ~ handleDateSelect ~ info:", info);
     const newEvents = dateSelect(info);
     if (newEvents) {
       setEvents(newEvents);
@@ -67,6 +74,16 @@ function Calendar({ events, setEvents }) {
       </div>
     );
   }
+
+  // const newEvent = {
+  //   eventName: "test1 ",
+  //   startDate: "2023-06-25T12:00:00.000Z",
+  //   endDate: "2023-06-25T13:00:00.000Z",
+  //   value: true,
+  //   eventId: Date.now().toString(),
+  // };
+
+  // addSpecialEvent(newEvent).then((data) => console.log(data));
 
   return (
     <div className="full-calendar">

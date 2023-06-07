@@ -15,6 +15,7 @@ function eventChange(info) {
 }
 
 function eventReceive(info) {
+  console.log("ooooooooooooo");
   const newEvent = {
     title: info.event.title,
     start: info.startStr,
