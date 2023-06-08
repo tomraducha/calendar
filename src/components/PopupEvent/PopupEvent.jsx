@@ -8,6 +8,7 @@ import {
   TextField,
 } from "@mui/material";
 import PropTypes from "prop-types";
+import Favorites from "./Favorites/Favorites";
 
 function PopupEvent({ event, setOpenPopup, updateEvent }) {
   const [popupState, setPopupState] = useState({
@@ -51,6 +52,7 @@ function PopupEvent({ event, setOpenPopup, updateEvent }) {
 
   return (
     <Dialog open={popupState.open} onClose={handleClose}>
+      <Favorites />
       <DialogTitle>Modifier l'événement</DialogTitle>
       <DialogContent>
         <TextField

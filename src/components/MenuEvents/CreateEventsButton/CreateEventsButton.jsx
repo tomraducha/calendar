@@ -12,7 +12,7 @@ function CreateEventsButton() {
   return (
     <div>
       <StyledButton variant="contained" onClick={handleOpen}>
-        Create new events
+        Créer un nouvel événement
       </StyledButton>
       <CreateEventPopup open={open} setOpenPopup={setOpen} />
     </div>

@@ -96,14 +96,13 @@ async function getSpecialEvents() {
 }
 
 async function addSpecialEvent(event) {
-  console.log(JSON.stringify(event));
   const response = await fetch(urlSpecialEvents, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Basic " + encodedAuthString,
     },
-    body: event,
+    body: JSON.stringify(event),
   });
   const data = await response.json();
   return data;

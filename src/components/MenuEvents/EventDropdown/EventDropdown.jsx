@@ -1,6 +1,5 @@
 import Select from "react-select";
 import PropTypes from "prop-types";
-import InfoEvents from "../InfoEvents/InfoEvents";
 import { StyledTypography } from "../InfoEvents/style";
 function EventDropdown({ events }) {
   const options = events
@@ -12,7 +11,7 @@ function EventDropdown({ events }) {
 
   return (
     <>
-      <StyledTypography>Events</StyledTypography>
+      <StyledTypography>Favoris</StyledTypography>
       <Select
         styles={{
           control: (baseStyles, state) => ({
@@ -39,7 +38,6 @@ function EventDropdown({ events }) {
           },
         }}
       />
-      <InfoEvents events={events} />
     </>
   );
 }

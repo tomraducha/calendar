@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Button } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 
 export const CloseIconButton = styled(IconButton)`
@@ -30,7 +31,17 @@ export const StyledTypography = styled.div`
   font-size: 1.3rem;
   font-weight: bold;
   color: #ffffff;
-  padding-top: 150px;
+  padding-top: 30px;
   padding-bottom: 10px;
   text-align: center;
+`;
+
+export const StyledButton = styled(Button)`
+  background-color: RGB(59, 95, 134);
+  color: #ffffff;
+  font-weight: bold;
+  &:hover {
+    background-color: #ffffff;
+    color: RGB(59, 95, 134);
+  }
 `;

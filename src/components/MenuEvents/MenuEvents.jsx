@@ -4,6 +4,7 @@ import { Draggable } from "@fullcalendar/interaction";
 import EventDropdown from "./EventDropdown/EventDropdown";
 import CreateEventsButton from "./CreateEventsButton/CreateEventsButton";
 import { StyledButtonContainer } from "./CreateEventsButton/style";
+import InfoEvents from "./InfoEvents/InfoEvents";
 
 function MenuEvents({ events }) {
   const draggableEl = useRef(null);
@@ -24,6 +25,7 @@ function MenuEvents({ events }) {
       <StyledButtonContainer>
         <CreateEventsButton />
       </StyledButtonContainer>
+      <InfoEvents events={events} />
       <div id="menu-events" ref={draggableEl}>
         <EventDropdown events={events} />
       </div>
