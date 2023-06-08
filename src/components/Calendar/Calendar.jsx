@@ -7,7 +7,7 @@ import {
   // addSpecialEvent,
   getRecurringEvents,
   getSpecialEvents,
-} from "./utilsApi";
+} from "../utilsApi";
 import {
   HEADER_OPTIONS,
   HIDDEN_DAYS,

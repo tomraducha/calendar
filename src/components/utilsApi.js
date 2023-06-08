@@ -96,16 +96,34 @@ async function getSpecialEvents() {
 }
 
 async function addSpecialEvent(event) {
+  console.log(JSON.stringify(event));
   const response = await fetch(urlSpecialEvents, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Basic " + encodedAuthString,
     },
-    body: JSON.stringify(event),
+    body: event,
   });
   const data = await response.json();
   return data;
 }
 
-export { getRecurringEvents, getSpecialEvents, addSpecialEvent };
+async function deleteSpecialEvent(eventId) {
+  const response = await fetch(`${urlSpecialEvents}/${eventId}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Basic " + encodedAuthString,
+    },
+  });
+  const data = await response.json();
+  return data;
+}
+
+export {
+  getRecurringEvents,
+  getSpecialEvents,
+  addSpecialEvent,
+  deleteSpecialEvent,
+};

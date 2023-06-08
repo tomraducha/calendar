@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   Dialog,
@@ -7,7 +7,7 @@ import {
   DialogActions,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { addSpecialEvent } from "../../../Calendar/utilsApi";
+import { addSpecialEvent } from "../../../utilsApi";
 import { StyledTextField } from "./style";
 
 function CreateEventPopup({ open, setOpenPopup }) {
@@ -16,6 +16,7 @@ function CreateEventPopup({ open, setOpenPopup }) {
     startDate: new Date(),
     endDate: new Date(),
   });
+  console.log(popupState.startDate);
 
   function handleClose() {
     setPopupState({
@@ -29,15 +30,19 @@ function CreateEventPopup({ open, setOpenPopup }) {
   function handleSave() {
     const newEvent = {
       eventName: popupState.title,
-      startDate: popupState.startDate.toISOString(),
-      endDate: popupState.endDate.toISOString(),
+      startDate: popupState.startDate,
+      endDate: popupState.endDate,
       value: true,
       eventId: Date.now().toString(),
     };
 
+    console.log(
+      "🚀 ~ file: CreateEventPopup.jsx:48 ~ handleSave ~ newEvent:",
+      newEvent
+    );
     addSpecialEvent(newEvent)
       .then((data) => {
-        console.log(data);
+        console.log("🚀 ~ file: CreateEventPopup.jsx:41 ~ .then ~ data:", data);
         handleClose();
       })
       .catch((err) => {

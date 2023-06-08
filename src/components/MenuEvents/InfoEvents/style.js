@@ -1,4 +1,11 @@
 import styled from "@emotion/styled";
+import IconButton from "@mui/material/IconButton";
+
+export const CloseIconButton = styled(IconButton)`
+  &:hover {
+    color: red;
+  }
+`;
 
 export const StyledCardContent = styled.div`
   padding: 4px;
@@ -9,7 +16,6 @@ export const StyledCardContent = styled.div`
   border-radius: 5px;
   background-color: #ffffff;
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   color: RGB(59, 95, 134);

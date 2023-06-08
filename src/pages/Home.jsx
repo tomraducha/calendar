@@ -2,11 +2,8 @@ import { Grid } from "@mui/material";
 import Title from "../components/Title/Title";
 import Calendar from "../components/Calendar/Calendar";
 import { useEffect, useState } from "react";
-import {
-  getRecurringEvents,
-  getSpecialEvents,
-} from "../components/Calendar/utilsApi";
 import MenuEvents from "../components/MenuEvents/MenuEvents";
+import { getRecurringEvents, getSpecialEvents } from "../components/utilsApi";
 
 function Home() {
   const [events, setEvents] = useState([]);
