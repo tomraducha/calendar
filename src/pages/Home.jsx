@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
 import Title from "../components/Title/Title";
 import Calendar from "../components/Calendar/Calendar";
@@ -7,27 +8,20 @@ import { getRecurringEvents, getSpecialEvents } from "../components/utilsApi";
 
 function Home() {
   const [events, setEvents] = useState([]);
+  console.log("🚀 ~ file: Home.jsx:10 ~ Home ~ events:", events);
 
-  function handleCreate() {
-    const title = prompt("Veuillez entrer le titre de l'événement");
-    if (title) {
-      const newEvent = {
-        title,
-        start: new Date().toISOString(),
-        end: new Date().toISOString(),
-        id: Date.now().toString(),
-      };
-      setEvents((prevEvents) => [...prevEvents, newEvent]);
-    }
-  }
-
-  useEffect(() => {
+  async function getEvents() {
     Promise.all([getRecurringEvents(), getSpecialEvents()]).then(
       ([recurringEvents, specialEvents]) => {
         setEvents([...recurringEvents, ...specialEvents]);
       }
     );
+  }
+
+  useEffect(() => {
+    getEvents();
   }, []);
+
   return (
     <div className="home">
       <Grid className="grid-background">
@@ -35,7 +29,11 @@ function Home() {
       </Grid>
       <Grid container spacing={2} className="grid-container">
         <Grid item xs={2} className="grid-background">
-          <MenuEvents events={events} onCreate={handleCreate} />
+          <MenuEvents
+            events={events}
+            setEvents={setEvents}
+            needUpdate={getEvents}
+          />
         </Grid>
         <Grid item xs={10}>
           <Calendar events={events} setEvents={setEvents} />
@@ -44,5 +42,10 @@ function Home() {
     </div>
   );
 }
+
+Home.propTypes = {
+  events: PropTypes.array,
+  setEvents: PropTypes.func,
+};
 
 export default Home;

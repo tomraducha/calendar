@@ -4,7 +4,7 @@ import { CloseIconButton, StyledCardContent, StyledTypography } from "./style";
 import PropTypes from "prop-types";
 import { deleteSpecialEvent } from "../../utilsApi";
 
-function InfoEvents({ events }) {
+function InfoEvents({ events, needUpdate }) {
   const options = events
     .filter((event) => event.title)
     .map((event) => ({
@@ -14,11 +14,12 @@ function InfoEvents({ events }) {
 
   function handleDelete(eventId) {
     deleteSpecialEvent(eventId);
+    needUpdate();
   }
 
   return (
     <>
-      <StyledTypography>Infos events</StyledTypography>
+      <StyledTypography>Special Events</StyledTypography>
       {options.map((option, index) => (
         <Card key={index}>
           <StyledCardContent>
@@ -35,6 +36,7 @@ function InfoEvents({ events }) {
 
 InfoEvents.propTypes = {
   events: PropTypes.array,
+  needUpdate: PropTypes.func,
 };
 
 export default InfoEvents;

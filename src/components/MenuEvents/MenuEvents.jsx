@@ -6,7 +6,7 @@ import CreateEventsButton from "./CreateEventsButton/CreateEventsButton";
 import { StyledButtonContainer } from "./CreateEventsButton/style";
 import InfoEvents from "./InfoEvents/InfoEvents";
 
-function MenuEvents({ events }) {
+function MenuEvents({ events, setEvents, needUpdate }) {
   const draggableEl = useRef(null);
 
   useEffect(() => {
@@ -23,9 +23,13 @@ function MenuEvents({ events }) {
   return (
     <>
       <StyledButtonContainer>
-        <CreateEventsButton />
+        <CreateEventsButton
+          events={events}
+          setEvents={setEvents}
+          needUpdate={needUpdate}
+        />
       </StyledButtonContainer>
-      <InfoEvents events={events} />
+      <InfoEvents events={events} needUpdate={needUpdate} />
       <div id="menu-events" ref={draggableEl}>
         <EventDropdown events={events} />
       </div>

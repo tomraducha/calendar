@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Button,
   Dialog,
@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 import { addSpecialEvent } from "../../../utilsApi";
 import { StyledTextField } from "./style";
 
-function CreateEventPopup({ open, setOpenPopup }) {
+function CreateEventPopup({ open, setOpenPopup, needUpdate }) {
   const [popupState, setPopupState] = useState({
     title: "",
     startDate: new Date(),
@@ -40,10 +40,14 @@ function CreateEventPopup({ open, setOpenPopup }) {
       "🚀 ~ file: CreateEventPopup.jsx:48 ~ handleSave ~ newEvent:",
       newEvent
     );
+
+    // setEvents((prevEvents) => [...prevEvents, newEvent]);
+
     addSpecialEvent(newEvent)
       .then((data) => {
         console.log("🚀 ~ file: CreateEventPopup.jsx:41 ~ .then ~ data:", data);
         handleClose();
+        needUpdate();
       })
       .catch((err) => {
         console.error(err);
@@ -111,6 +115,7 @@ CreateEventPopup.propTypes = {
   open: PropTypes.bool,
   setOpenPopup: PropTypes.func,
   createEvent: PropTypes.func,
+  needUpdate: PropTypes.func,
 };
 
 export default CreateEventPopup;
