@@ -1,12 +1,19 @@
-import { makeStyles } from "@mui/styles";
+import styled from "@emotion/styled";
+import { IconButton as MuiIconButton } from "@mui/material";
 
-export const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    justifyContent: "flex-end",
-  },
-  iconButton: {
-    color: theme.palette.primary.main,
-    fontSize: "3rem",
-  },
-}));
+export const Root = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
+export const StyledIconButton = styled(MuiIconButton)`
+  color: ${(props) => props.theme.palette.primary.main};
+  font-size: 2rem;
+`;
+
+export const StyledTypography = styled.div`
+  margin-right: 10px;
+  color: ${(props) => props.theme.palette.primary.main};
+  font-weight: bold;
+`;

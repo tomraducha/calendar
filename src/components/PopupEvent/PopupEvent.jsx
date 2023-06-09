@@ -5,12 +5,13 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  TextField,
 } from "@mui/material";
 import PropTypes from "prop-types";
 import Favorites from "./Favorites/Favorites";
+import { StyledTextField } from "./style";
+import { updateSpecialEvent } from "../utilsApi";
 
-function PopupEvent({ event, setOpenPopup, updateEvent }) {
+function PopupEvent({ event, setOpenPopup }) {
   const [popupState, setPopupState] = useState({
     open: event !== null,
     title: event?.title || "",
@@ -31,13 +32,12 @@ function PopupEvent({ event, setOpenPopup, updateEvent }) {
 
   function handleSave() {
     const updatedEvent = {
-      ...event,
-      ...popupState,
+      id: event.id,
       start: formatDate(new Date(popupState.startDate)),
       end: formatDate(new Date(popupState.endDate)),
+      title: popupState.title,
     };
-
-    updateEvent(updatedEvent);
+    updateSpecialEvent(event.id, updatedEvent);
     handleClose();
   }
 
@@ -55,21 +55,7 @@ function PopupEvent({ event, setOpenPopup, updateEvent }) {
       <Favorites />
       <DialogTitle>Modifier l'événement</DialogTitle>
       <DialogContent>
-        <TextField
-          autoFocus
-          margin="dense"
-          label="Titre"
-          type="text"
-          fullWidth
-          value={popupState.title}
-          onChange={(e) =>
-            setPopupState((prevState) => ({
-              ...prevState,
-              title: e.target.value,
-            }))
-          }
-        />
-        <TextField
+        <StyledTextField
           margin="dense"
           label="Début"
           type="datetime-local"
@@ -82,7 +68,7 @@ function PopupEvent({ event, setOpenPopup, updateEvent }) {
             }))
           }
         />
-        <TextField
+        <StyledTextField
           margin="dense"
           label="Fin"
           type="datetime-local"

@@ -1,16 +1,26 @@
-import { IconButton } from "@mui/material";
+import { useState } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { useStyles } from "./styles";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { Root, StyledIconButton, StyledTypography } from "./styles";
 
 function Favorites() {
-  const classes = useStyles();
+  const [isFavorite, setIsFavorite] = useState(false);
+
+  function handleIconClick() {
+    setIsFavorite((prev) => !prev);
+  }
 
   return (
-    <div className={classes.root}>
-      <IconButton className={classes.iconButton}>
-        <FavoriteIcon fontSize="" />
-      </IconButton>
-    </div>
+    <Root>
+      <StyledTypography>Favoris</StyledTypography>
+      <StyledIconButton onClick={handleIconClick}>
+        {isFavorite ? (
+          <FavoriteIcon fontSize="large" />
+        ) : (
+          <FavoriteBorderIcon fontSize="large" />
+        )}
+      </StyledIconButton>
+    </Root>
   );
 }
 
