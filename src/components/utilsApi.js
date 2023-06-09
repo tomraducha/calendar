@@ -120,9 +120,23 @@ async function deleteSpecialEvent(eventId) {
   return data;
 }
 
+async function updateSpecialEvent(eventId, event) {
+  const response = await fetch(`${urlSpecialEvents}/${eventId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Basic " + encodedAuthString,
+    },
+    body: JSON.stringify(event),
+  });
+  const data = await response.json();
+  return data;
+}
+
 export {
   getRecurringEvents,
   getSpecialEvents,
   addSpecialEvent,
   deleteSpecialEvent,
+  updateSpecialEvent,
 };
