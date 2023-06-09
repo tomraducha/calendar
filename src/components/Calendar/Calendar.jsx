@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import FullCalendar from "@fullcalendar/react";
 import { dateSelect, eventChange, eventReceive } from "./UtilsCalendar";
-import PopupEvent from "../PopupEvent/PopupEvent";
+import ModalUpdateEvents from "../ModalEvents/ModalUpdateEvents/ModalUpdateEvents";
 
 import {
   HEADER_OPTIONS,
@@ -81,7 +81,7 @@ function Calendar({ events, setEvents }) {
         dayMaxEvents
       />
       {openPopup && (
-        <PopupEvent
+        <ModalUpdateEvents
           event={selectedEvent}
           setOpenPopup={setOpenPopup}
           updateEvent={updateEvent}

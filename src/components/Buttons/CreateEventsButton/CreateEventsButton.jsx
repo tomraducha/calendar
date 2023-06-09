@@ -1,6 +1,7 @@
+import PropTypes from "prop-types";
 import { useState } from "react";
 import { StyledButton } from "./style";
-import CreateEventPopup from "./CreateEventPopup/CreateEventPopup";
+import ModalCreateEvents from "../../ModalEvents/ModalCreateEvents/ModalCreateEvents";
 
 function CreateEventsButton({ events, setEvents, needUpdate }) {
   const [open, setOpen] = useState(false);
@@ -14,7 +15,7 @@ function CreateEventsButton({ events, setEvents, needUpdate }) {
       <StyledButton variant="contained" onClick={handleOpen}>
         Créer un nouvel événement
       </StyledButton>
-      <CreateEventPopup
+      <ModalCreateEvents
         open={open}
         setOpenPopup={setOpen}
         events={events}
@@ -24,5 +25,11 @@ function CreateEventsButton({ events, setEvents, needUpdate }) {
     </div>
   );
 }
+
+CreateEventsButton.propTypes = {
+  events: PropTypes.array,
+  setEvents: PropTypes.func,
+  needUpdate: PropTypes.func,
+};
 
 export default CreateEventsButton;

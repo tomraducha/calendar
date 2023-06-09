@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import {
   Button,
@@ -6,12 +7,11 @@ import {
   DialogContent,
   DialogActions,
 } from "@mui/material";
-import PropTypes from "prop-types";
-import Favorites from "./Favorites/Favorites";
 import { StyledTextField } from "./style";
-import { updateSpecialEvent } from "../utilsApi";
+import { updateSpecialEvent } from "../../utilsApi";
+import FavoritesButton from "../../Buttons/FavoritesButton/FavoritesButton";
 
-function PopupEvent({ event, setOpenPopup }) {
+function ModalUpdateEvents({ event, setOpenPopup }) {
   const [popupState, setPopupState] = useState({
     open: event !== null,
     title: event?.title || "",
@@ -52,7 +52,7 @@ function PopupEvent({ event, setOpenPopup }) {
 
   return (
     <Dialog open={popupState.open} onClose={handleClose}>
-      <Favorites />
+      <FavoritesButton />
       <DialogTitle>Modifier l'événement</DialogTitle>
       <DialogContent>
         <StyledTextField
@@ -98,10 +98,10 @@ function PopupEvent({ event, setOpenPopup }) {
   );
 }
 
-PopupEvent.propTypes = {
+ModalUpdateEvents.propTypes = {
   event: PropTypes.object,
   setOpenPopup: PropTypes.func.isRequired,
   updateEvent: PropTypes.func.isRequired,
 };
 
-export default PopupEvent;
+export default ModalUpdateEvents;

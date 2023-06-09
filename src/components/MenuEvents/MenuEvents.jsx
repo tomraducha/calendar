@@ -1,9 +1,9 @@
 import { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { Draggable } from "@fullcalendar/interaction";
-import EventDropdown from "./EventDropdown/EventDropdown";
-import CreateEventsButton from "./CreateEventsButton/CreateEventsButton";
-import { StyledButtonContainer } from "./CreateEventsButton/style";
+import DropdownFavorisEvents from "./DropdownFavorisEvents/DropdownFavorisEvents";
+import CreateEventsButton from "../Buttons/CreateEventsButton/CreateEventsButton";
+import { StyledButtonContainer } from "../Buttons/CreateEventsButton/style";
 import InfoEvents from "./InfoEvents/InfoEvents";
 
 function MenuEvents({ events, setEvents, needUpdate }) {
@@ -31,7 +31,7 @@ function MenuEvents({ events, setEvents, needUpdate }) {
       </StyledButtonContainer>
       <InfoEvents events={events} needUpdate={needUpdate} />
       <div id="menu-events" ref={draggableEl}>
-        <EventDropdown events={events} />
+        <DropdownFavorisEvents events={events} />
       </div>
     </>
   );
@@ -39,6 +39,8 @@ function MenuEvents({ events, setEvents, needUpdate }) {
 
 MenuEvents.propTypes = {
   events: PropTypes.array,
+  setEvents: PropTypes.func,
+  needUpdate: PropTypes.func,
 };
 
 export default MenuEvents;

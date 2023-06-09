@@ -3,7 +3,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { Root, StyledIconButton, StyledTypography } from "./styles";
 
-function Favorites() {
+function FavoritesButton() {
   const [isFavorite, setIsFavorite] = useState(false);
 
   function handleIconClick() {
@@ -24,4 +24,4 @@ function Favorites() {
   );
 }
 
-export default Favorites;
+export default FavoritesButton;

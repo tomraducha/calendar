@@ -7,10 +7,10 @@ import {
   DialogActions,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { addSpecialEvent } from "../../../utilsApi";
+import { addSpecialEvent } from "../../utilsApi";
 import { StyledTextField } from "./style";
 
-function CreateEventPopup({ open, setOpenPopup, needUpdate }) {
+function ModalCreateEvents({ open, setOpenPopup, needUpdate }) {
   const [popupState, setPopupState] = useState({
     title: "",
     startDate: new Date(),
@@ -36,16 +36,12 @@ function CreateEventPopup({ open, setOpenPopup, needUpdate }) {
       eventId: Date.now().toString(),
     };
 
-    console.log(
-      "🚀 ~ file: CreateEventPopup.jsx:48 ~ handleSave ~ newEvent:",
-      newEvent
-    );
-
-    // setEvents((prevEvents) => [...prevEvents, newEvent]);
-
     addSpecialEvent(newEvent)
       .then((data) => {
-        console.log("🚀 ~ file: CreateEventPopup.jsx:41 ~ .then ~ data:", data);
+        console.log(
+          "🚀 ~ file: ModalCreateEvents.jsx:41 ~ .then ~ data:",
+          data
+        );
         handleClose();
         needUpdate();
       })
@@ -111,11 +107,11 @@ function CreateEventPopup({ open, setOpenPopup, needUpdate }) {
   );
 }
 
-CreateEventPopup.propTypes = {
+ModalCreateEvents.propTypes = {
   open: PropTypes.bool,
   setOpenPopup: PropTypes.func,
   createEvent: PropTypes.func,
   needUpdate: PropTypes.func,
 };
 
-export default CreateEventPopup;
+export default ModalCreateEvents;

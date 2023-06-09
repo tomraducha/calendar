@@ -1,7 +1,7 @@
 import Select from "react-select";
 import PropTypes from "prop-types";
 import { StyledTypography } from "../InfoEvents/style";
-function EventDropdown({ events }) {
+function DropdownFavorisEvents({ events }) {
   const options = events
     .filter((event) => event.title)
     .map((event) => ({
@@ -42,11 +42,11 @@ function EventDropdown({ events }) {
   );
 }
 
-EventDropdown.propTypes = {
+DropdownFavorisEvents.propTypes = {
   data: PropTypes.array,
   events: PropTypes.array,
   innerRef: PropTypes.func,
   innerProps: PropTypes.object,
 };
 
-export default EventDropdown;
+export default DropdownFavorisEvents;
