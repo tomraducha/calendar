@@ -24,8 +24,12 @@ function InfoEvents({ events, needUpdate }) {
         <Card key={index}>
           <StyledCardContent>
             {option.label}
-            <CloseIconButton edge="end" aria-label="delete">
-              <CloseIcon onClick={() => handleDelete(option.id)} />
+            <CloseIconButton
+              onClick={() => handleDelete(option.id)}
+              edge="end"
+              aria-label="delete"
+            >
+              <CloseIcon />
             </CloseIconButton>
           </StyledCardContent>
         </Card>
