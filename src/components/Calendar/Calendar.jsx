@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import FullCalendar from "@fullcalendar/react";
 import { dateSelect, eventChange, eventReceive } from "./UtilsCalendar";
 import ModalUpdateEvents from "../ModalEvents/ModalUpdateEvents/ModalUpdateEvents";
-
+import { EventContentContainer } from "./style";
+import { StyledTypography } from "../Buttons/FavoritesButton/styles";
 import {
   HEADER_OPTIONS,
   HIDDEN_DAYS,
@@ -53,10 +54,16 @@ function Calendar({ events, setEvents }) {
 
   function renderEventContent(eventInfo) {
     return (
-      <div>
-        <p>{eventInfo.event.extendedProps.light}</p>
-        <p>{eventInfo.event.title}</p>
-      </div>
+      <EventContentContainer>
+        <StyledTypography variant="body2">
+          {eventInfo.event.extendedProps.light}
+        </StyledTypography>
+        <StyledTypography variant="body1">
+          {eventInfo.event.title.length > 20
+            ? eventInfo.event.title.substring(0, 8) + "..."
+            : eventInfo.event.title}
+        </StyledTypography>
+      </EventContentContainer>
     );
   }
 
