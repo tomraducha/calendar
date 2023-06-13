@@ -1,4 +1,4 @@
-import { Card } from "@mui/material";
+import { Card, Tooltip } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { CloseIconButton, StyledCardContent, StyledTypography } from "./style";
 import PropTypes from "prop-types";
@@ -23,7 +23,13 @@ function InfoEvents({ events, needUpdate }) {
       {options.map((option, index) => (
         <Card key={index}>
           <StyledCardContent>
-            {option.label}
+            {option.label.length > 20 ? (
+              <Tooltip title={option.label} placement="top-start">
+                <span>{option.label.substring(0, 20) + "..."}</span>
+              </Tooltip>
+            ) : (
+              <span>{option.label}</span>
+            )}
             <CloseIconButton
               onClick={() => handleDelete(option.id)}
               edge="end"
