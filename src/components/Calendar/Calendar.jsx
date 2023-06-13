@@ -60,26 +60,35 @@ function Calendar({ events, setEvents }) {
     );
   }
 
+  const calendarOptions = {
+    plugins: PLUGINS,
+    headerToolbar: HEADER_OPTIONS,
+    events: events,
+    ref: calendarRef,
+    hiddenDays: HIDDEN_DAYS,
+    initialView: INITIAL_VIEW,
+    eventClick: handleEventClick,
+    eventResize: handleEventResize,
+    eventDrop: handleEventDrop,
+    eventReceive: handleEventReceive,
+    dateSelect: handleDateSelect,
+    eventContent: renderEventContent,
+    editable: true,
+    droppable: true,
+    selectable: true,
+    dayMaxEvents: true,
+    slotLabelFormat: {
+      hour: "numeric",
+      hour12: false,
+      timeZone: "Europe/Paris",
+    },
+    slotMinTime: "01:00:00",
+    slotMaxTime: "24:00:00",
+  };
+
   return (
     <div className="full-calendar">
-      <FullCalendar
-        plugins={PLUGINS}
-        headerToolbar={HEADER_OPTIONS}
-        events={events}
-        ref={calendarRef}
-        hiddenDays={HIDDEN_DAYS}
-        initialView={INITIAL_VIEW}
-        eventClick={handleEventClick}
-        eventResize={handleEventResize}
-        eventDrop={handleEventDrop}
-        eventReceive={handleEventReceive}
-        dateSelect={handleDateSelect}
-        eventContent={renderEventContent}
-        editable
-        droppable
-        selectable
-        dayMaxEvents
-      />
+      <FullCalendar {...calendarOptions} />
       {openPopup && (
         <ModalUpdateEvents
           event={selectedEvent}

@@ -8,7 +8,6 @@ import { getRecurringEvents, getSpecialEvents } from "../components/utilsApi";
 
 function Home() {
   const [events, setEvents] = useState([]);
-  console.log("🚀 ~ file: Home.jsx:10 ~ Home ~ events:", events);
 
   async function getEvents() {
     Promise.all([getRecurringEvents(), getSpecialEvents()]).then(
