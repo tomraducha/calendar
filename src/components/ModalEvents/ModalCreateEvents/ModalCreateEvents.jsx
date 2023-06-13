@@ -16,7 +16,6 @@ function ModalCreateEvents({ open, setOpenPopup, needUpdate }) {
     startDate: new Date(),
     endDate: new Date(),
   });
-  console.log(popupState.startDate);
 
   function handleClose() {
     setPopupState({
@@ -37,17 +36,20 @@ function ModalCreateEvents({ open, setOpenPopup, needUpdate }) {
     };
 
     addSpecialEvent(newEvent)
-      .then((data) => {
-        console.log(
-          "🚀 ~ file: ModalCreateEvents.jsx:41 ~ .then ~ data:",
-          data
-        );
+      .then(() => {
         handleClose();
         needUpdate();
       })
       .catch((err) => {
         console.error(err);
       });
+  }
+
+  function convertToCEST(date) {
+    let cestDate = new Date(date.getTime() + 2 * 60 * 60 * 1000);
+    let offset = cestDate.getTimezoneOffset();
+    cestDate = new Date(cestDate.getTime() - offset * 60 * 1000);
+    return cestDate.toISOString().substring(0, 16);
   }
 
   return (
@@ -61,32 +63,35 @@ function ModalCreateEvents({ open, setOpenPopup, needUpdate }) {
           type="text"
           fullWidth
           value={popupState.title}
-          onChange={(e) =>
+          onChange={(e) => {
             setPopupState((prevState) => ({
               ...prevState,
               title: e.target.value,
-            }))
-          }
+            }));
+            return;
+          }}
         />
         <StyledTextField
           margin="dense"
           label="Début"
           type="datetime-local"
           fullWidth
-          value={new Date(popupState.startDate).toISOString().substring(0, 16)}
-          onChange={(e) =>
+          value={convertToCEST(popupState.startDate)}
+          onChange={(e) => {
             setPopupState((prevState) => ({
               ...prevState,
               startDate: new Date(e.target.value),
-            }))
-          }
+            }));
+            return;
+          }}
         />
+
         <StyledTextField
           margin="dense"
           label="Fin"
           type="datetime-local"
           fullWidth
-          value={new Date(popupState.endDate).toISOString().substring(0, 16)}
+          value={convertToCEST(popupState.endDate)}
           onChange={(e) =>
             setPopupState((prevState) => ({
               ...prevState,

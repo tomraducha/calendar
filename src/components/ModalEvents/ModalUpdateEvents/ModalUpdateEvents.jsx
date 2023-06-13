@@ -41,6 +41,13 @@ function ModalUpdateEvents({ event, setOpenPopup }) {
     handleClose();
   }
 
+  function convertToCEST(date) {
+    let cestDate = new Date(date.getTime() + 2 * 60 * 60 * 1000);
+    let offset = cestDate.getTimezoneOffset();
+    cestDate = new Date(cestDate.getTime() - offset * 60 * 1000);
+    return cestDate.toISOString().substring(0, 16);
+  }
+
   useEffect(() => {
     setPopupState({
       open: event !== null,
@@ -60,7 +67,9 @@ function ModalUpdateEvents({ event, setOpenPopup }) {
           label="Début"
           type="datetime-local"
           fullWidth
-          value={new Date(popupState.startDate).toISOString().substring(0, 16)}
+          value={
+            popupState.startDate ? convertToCEST(popupState.startDate) : ""
+          }
           onChange={(e) =>
             setPopupState((prevState) => ({
               ...prevState,
@@ -73,11 +82,7 @@ function ModalUpdateEvents({ event, setOpenPopup }) {
           label="Fin"
           type="datetime-local"
           fullWidth
-          value={
-            popupState.endDate
-              ? new Date(popupState.endDate).toISOString().substring(0, 16)
-              : ""
-          }
+          value={popupState.endDate ? convertToCEST(popupState.endDate) : ""}
           onChange={(e) =>
             setPopupState((prevState) => ({
               ...prevState,
