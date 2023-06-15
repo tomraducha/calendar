@@ -4,14 +4,17 @@ import { StyledTypography } from "../Buttons/FavoritesButton/styles";
 import { dateSelect, eventChange, eventReceive } from "./UtilsCalendar";
 import ModalUpdateEvents from "../ModalEvents/ModalUpdateEvents/ModalUpdateEvents";
 import * as utilsOption from "./utilsOption";
+import Context from "../../pages/Context";
 /* Libs & Plugins */
-import { useRef, useState } from "react";
-import PropTypes from "prop-types";
+import { useRef, useState, useContext } from "react";
 import FullCalendar from "@fullcalendar/react";
+import PropTypes from "prop-types";
 
 const { HEADER_OPTIONS, HIDDEN_DAYS, INITIAL_VIEW, PLUGINS } = utilsOption;
 
-function Calendar({ events, setEvents }) {
+function Calendar() {
+  const { events } = useContext(Context);
+  const { setEvents } = useContext(Context);
   const [openPopup, setOpenPopup] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const calendarRef = useRef(null);

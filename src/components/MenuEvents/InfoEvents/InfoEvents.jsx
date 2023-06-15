@@ -1,12 +1,16 @@
 /* BTIB */
 import { CloseIconButton, StyledCardContent, StyledTypography } from "./style";
 import { deleteSpecialEvent } from "../../utilsApi";
+import Context from "../../../pages/Context";
 /* Libs & plugins */
+import { useContext } from "react";
 import { Card, Tooltip } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import PropTypes from "prop-types";
 
-function InfoEvents({ events, needUpdate }) {
+function InfoEvents() {
+  const { getEvents } = useContext(Context);
+  const { events } = useContext(Context);
+
   const options = events
     .filter((event) => event.title)
     .map((event) => ({
@@ -20,7 +24,7 @@ function InfoEvents({ events, needUpdate }) {
 
   function handleDelete(eventId) {
     deleteSpecialEvent(eventId);
-    needUpdate();
+    getEvents();
   }
 
   ////////////////////////////////////////////////////////////////
@@ -53,10 +57,5 @@ function InfoEvents({ events, needUpdate }) {
     </>
   );
 }
-
-InfoEvents.propTypes = {
-  events: PropTypes.array,
-  needUpdate: PropTypes.func,
-};
 
 export default InfoEvents;

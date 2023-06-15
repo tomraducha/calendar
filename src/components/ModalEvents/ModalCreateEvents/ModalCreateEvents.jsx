@@ -1,15 +1,17 @@
 /* BTIB */
 import { addSpecialEvent } from "../../utilsApi";
 import { StyledTextField } from "./style";
+import Context from "../../../pages/Context";
 /* Libs & plugins */
-import { useState } from "react";
-import PropTypes from "prop-types";
+import { useState, useContext } from "react";
 import * as utilsMaterialUI from "@mui/material";
+import PropTypes from "prop-types";
 
 const { Button, Dialog, DialogTitle, DialogContent, DialogActions } =
   utilsMaterialUI;
 
-function ModalCreateEvents({ open, setOpenPopup, needUpdate }) {
+function ModalCreateEvents({ open, setOpenPopup }) {
+  const { getEvents } = useContext(Context);
   // useRef
   const [popupState, setPopupState] = useState({
     title: "",
@@ -42,7 +44,7 @@ function ModalCreateEvents({ open, setOpenPopup, needUpdate }) {
     addSpecialEvent(newEvent)
       .then(() => {
         handleClose();
-        needUpdate();
+        getEvents();
       })
       .catch((err) => {
         console.error(err);
@@ -128,7 +130,6 @@ ModalCreateEvents.propTypes = {
   open: PropTypes.bool,
   setOpenPopup: PropTypes.func,
   createEvent: PropTypes.func,
-  needUpdate: PropTypes.func,
 };
 
 export default ModalCreateEvents;

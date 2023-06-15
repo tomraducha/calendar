@@ -1,12 +1,13 @@
-import { useEffect, useRef } from "react";
-import PropTypes from "prop-types";
-import { Draggable } from "@fullcalendar/interaction";
+/* BTIB */
 import DropdownFavorisEvents from "./DropdownFavorisEvents/DropdownFavorisEvents";
 import CreateEventsButton from "../Buttons/CreateEventsButton/CreateEventsButton";
 import { StyledButtonContainer } from "../Buttons/CreateEventsButton/style";
 import InfoEvents from "./InfoEvents/InfoEvents";
+/* Libs & plugins */
+import { useEffect, useRef } from "react";
+import { Draggable } from "@fullcalendar/interaction";
 
-function MenuEvents({ events, setEvents, needUpdate }) {
+function MenuEvents() {
   const draggableEl = useRef(null);
 
   useEffect(() => {
@@ -21,27 +22,21 @@ function MenuEvents({ events, setEvents, needUpdate }) {
     });
   }, []);
 
+  ////////////////////////////////////////////////////////////////
+  // JSX
+  ////////////////////////////////////////////////////////////////
+
   return (
     <>
       <StyledButtonContainer>
-        <CreateEventsButton
-          events={events}
-          setEvents={setEvents}
-          needUpdate={needUpdate}
-        />
+        <CreateEventsButton />
       </StyledButtonContainer>
-      <InfoEvents events={events} needUpdate={needUpdate} />
+      <InfoEvents />
       <div id="menu-events" ref={draggableEl}>
-        <DropdownFavorisEvents events={events} />
+        <DropdownFavorisEvents />
       </div>
     </>
   );
 }
-
-MenuEvents.propTypes = {
-  events: PropTypes.array,
-  setEvents: PropTypes.func,
-  needUpdate: PropTypes.func,
-};
 
 export default MenuEvents;
