@@ -1,8 +1,10 @@
+/* BTIB */
+import { CloseIconButton, StyledCardContent, StyledTypography } from "./style";
+import { deleteSpecialEvent } from "../../utilsApi";
+/* Libs & plugins */
 import { Card, Tooltip } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { CloseIconButton, StyledCardContent, StyledTypography } from "./style";
 import PropTypes from "prop-types";
-import { deleteSpecialEvent } from "../../utilsApi";
 
 function InfoEvents({ events, needUpdate }) {
   const options = events
@@ -12,10 +14,18 @@ function InfoEvents({ events, needUpdate }) {
       id: event.id,
     }));
 
+  ////////////////////////////////////////////////////////////////
+  // Event handlers
+  ////////////////////////////////////////////////////////////////
+
   function handleDelete(eventId) {
     deleteSpecialEvent(eventId);
     needUpdate();
   }
+
+  ////////////////////////////////////////////////////////////////
+  // JSX
+  ////////////////////////////////////////////////////////////////
 
   return (
     <>

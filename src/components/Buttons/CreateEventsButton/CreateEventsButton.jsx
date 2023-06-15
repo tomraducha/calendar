@@ -1,14 +1,24 @@
+/* BTIB */
+import ModalCreateEvents from "../../ModalEvents/ModalCreateEvents/ModalCreateEvents";
+import { StyledButton } from "./style";
+/* Libs & plugins */
 import PropTypes from "prop-types";
 import { useState } from "react";
-import { StyledButton } from "./style";
-import ModalCreateEvents from "../../ModalEvents/ModalCreateEvents/ModalCreateEvents";
 
 function CreateEventsButton({ events, setEvents, needUpdate }) {
   const [open, setOpen] = useState(false);
 
+  ////////////////////////////////////////////////////////////////
+  // Event handlers
+  ////////////////////////////////////////////////////////////////
+
   function handleOpen() {
     setOpen(true);
   }
+
+  ////////////////////////////////////////////////////////////////
+  // JSX
+  ////////////////////////////////////////////////////////////////
 
   return (
     <div>

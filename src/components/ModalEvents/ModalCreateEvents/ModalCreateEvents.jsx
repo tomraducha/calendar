@@ -1,21 +1,25 @@
-import { useState } from "react";
-import {
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-} from "@mui/material";
-import PropTypes from "prop-types";
+/* BTIB */
 import { addSpecialEvent } from "../../utilsApi";
 import { StyledTextField } from "./style";
+/* Libs & plugins */
+import { useState } from "react";
+import PropTypes from "prop-types";
+import * as utilsMaterialUI from "@mui/material";
+
+const { Button, Dialog, DialogTitle, DialogContent, DialogActions } =
+  utilsMaterialUI;
 
 function ModalCreateEvents({ open, setOpenPopup, needUpdate }) {
+  // useRef
   const [popupState, setPopupState] = useState({
     title: "",
     startDate: new Date(),
     endDate: new Date(),
   });
+
+  ////////////////////////////////////////////////////////////////
+  // Event handlers
+  ////////////////////////////////////////////////////////////////
 
   function handleClose() {
     setPopupState({
@@ -45,12 +49,20 @@ function ModalCreateEvents({ open, setOpenPopup, needUpdate }) {
       });
   }
 
+  ////////////////////////////////////////////////////////////////
+  // Methods
+  ////////////////////////////////////////////////////////////////
+
   function convertToCEST(date) {
     let cestDate = new Date(date.getTime() + 2 * 60 * 60 * 1000);
     let offset = cestDate.getTimezoneOffset();
     cestDate = new Date(cestDate.getTime() - offset * 60 * 1000);
     return cestDate.toISOString().substring(0, 16);
   }
+
+  ////////////////////////////////////////////////////////////////
+  // JSX
+  ////////////////////////////////////////////////////////////////
 
   return (
     <Dialog open={open} onClose={handleClose}>

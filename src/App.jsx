@@ -1,14 +1,14 @@
+/* BTIB */
 import Home from "./pages/Home";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-const theme = createTheme({
-  palette: {
-    text: {
-      primary: "#ffffff",
-    },
-  },
-});
+import { theme } from "./components/Theme/Theme";
+/* Libs & plugins */
+import { ThemeProvider } from "@mui/material/styles";
 
 function App() {
+  ////////////////////////////////////////////////////////////////
+  // JSX
+  ////////////////////////////////////////////////////////////////
+
   return (
     <div className="App">
       <ThemeProvider theme={theme}>

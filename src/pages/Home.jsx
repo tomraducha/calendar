@@ -1,15 +1,22 @@
-import PropTypes from "prop-types";
-import { Grid } from "@mui/material";
-import Title from "../components/Title/Title";
+/* BTIB */
 import Calendar from "../components/Calendar/Calendar";
-import { useEffect, useState } from "react";
 import MenuEvents from "../components/MenuEvents/MenuEvents";
+import Title from "../components/Title/Title";
 import { getRecurringEvents, getSpecialEvents } from "../components/utilsApi";
+/* Libs & plugins */
+import { useEffect, useState } from "react";
+import { Grid } from "@mui/material";
 
 function Home() {
+  //utiliser useContext
   const [events, setEvents] = useState([]);
 
-  async function getEvents() {
+  useEffect(() => {
+    getEvents();
+  }, []);
+
+  function getEvents() {
+    //gestion erreur
     Promise.all([getRecurringEvents(), getSpecialEvents()]).then(
       ([recurringEvents, specialEvents]) => {
         setEvents([...recurringEvents, ...specialEvents]);
@@ -17,9 +24,9 @@ function Home() {
     );
   }
 
-  useEffect(() => {
-    getEvents();
-  }, []);
+  ////////////////////////////////////////////////////////////////
+  // JSX
+  ////////////////////////////////////////////////////////////////
 
   return (
     <div className="home">
@@ -41,10 +48,5 @@ function Home() {
     </div>
   );
 }
-
-Home.propTypes = {
-  events: PropTypes.array,
-  setEvents: PropTypes.func,
-};
 
 export default Home;

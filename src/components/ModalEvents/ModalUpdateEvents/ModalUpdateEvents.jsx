@@ -1,17 +1,17 @@
+/* BTIB */
+import FavoritesButton from "../../Buttons/FavoritesButton/FavoritesButton";
+import { updateSpecialEvent } from "../../utilsApi";
+import { StyledTextField } from "./style";
+/* Libs & plugins */
+import * as utilsMaterialUI from "@mui/material";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
-import {
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-} from "@mui/material";
-import { StyledTextField } from "./style";
-import { updateSpecialEvent } from "../../utilsApi";
-import FavoritesButton from "../../Buttons/FavoritesButton/FavoritesButton";
 
-function ModalUpdateEvents({ event, setOpenPopup }) {
+const { Button, Dialog, DialogTitle, DialogContent, DialogActions } =
+  utilsMaterialUI;
+
+function ModalUpdateEvents({ event, onClose }) {
+  //mettre dans des variables
   const [popupState, setPopupState] = useState({
     open: event !== null,
     title: event?.title || "",
@@ -19,17 +19,26 @@ function ModalUpdateEvents({ event, setOpenPopup }) {
     endDate: event?.end || new Date(),
   });
 
+  useEffect(() => {
+    setPopupState({
+      open: event !== null,
+      title: event?.title || "",
+      startDate: event?.start || new Date(),
+      endDate: event?.end || new Date(),
+    });
+  }, [event]);
+
+  ////////////////////////////////////////////////////////////////
+  // Event handlers
+  ////////////////////////////////////////////////////////////////
+
   function handleClose() {
     setPopupState((prevState) => ({ ...prevState, open: false }));
-    setOpenPopup(false);
+    onClose();
   }
 
-  function formatDate(date) {
-    `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${(
-      "0" + date.getDate()
-    ).slice(-2)}`;
-  }
-
+  //utiliser useRef
+  // inputRef.current.value
   function handleSave() {
     const updatedEvent = {
       id: event.id,
@@ -41,6 +50,16 @@ function ModalUpdateEvents({ event, setOpenPopup }) {
     handleClose();
   }
 
+  ////////////////////////////////////////////////////////////////
+  // Methods
+  ////////////////////////////////////////////////////////////////
+
+  function formatDate(date) {
+    `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${(
+      "0" + date.getDate()
+    ).slice(-2)}`;
+  }
+
   function convertToCEST(date) {
     let cestDate = new Date(date.getTime() + 2 * 60 * 60 * 1000);
     let offset = cestDate.getTimezoneOffset();
@@ -48,14 +67,9 @@ function ModalUpdateEvents({ event, setOpenPopup }) {
     return cestDate.toISOString().substring(0, 16);
   }
 
-  useEffect(() => {
-    setPopupState({
-      open: event !== null,
-      title: event?.title || "",
-      startDate: event?.start || new Date(),
-      endDate: event?.end || new Date(),
-    });
-  }, [event]);
+  ////////////////////////////////////////////////////////////////
+  // JSX
+  ////////////////////////////////////////////////////////////////
 
   return (
     <Dialog open={popupState.open} onClose={handleClose}>
@@ -68,6 +82,7 @@ function ModalUpdateEvents({ event, setOpenPopup }) {
           type="datetime-local"
           fullWidth
           value={
+            //mettre dans une variable
             popupState.startDate ? convertToCEST(popupState.startDate) : ""
           }
           onChange={(e) =>
@@ -105,7 +120,7 @@ function ModalUpdateEvents({ event, setOpenPopup }) {
 
 ModalUpdateEvents.propTypes = {
   event: PropTypes.object,
-  setOpenPopup: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
   updateEvent: PropTypes.func.isRequired,
 };
 

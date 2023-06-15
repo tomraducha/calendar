@@ -1,14 +1,24 @@
+/* BTIB */
+import { Root, StyledIconButton, StyledTypography } from "./styles";
+/* Libs & plugins */
 import { useState } from "react";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { Root, StyledIconButton, StyledTypography } from "./styles";
 
 function FavoritesButton() {
   const [isFavorite, setIsFavorite] = useState(false);
 
+  ////////////////////////////////////////////////////////////////
+  // Event handlers
+  ////////////////////////////////////////////////////////////////
+
   function handleIconClick() {
     setIsFavorite((prev) => !prev);
   }
+
+  ////////////////////////////////////////////////////////////////
+  // JSX
+  ////////////////////////////////////////////////////////////////
 
   return (
     <Root>

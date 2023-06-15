@@ -20,6 +20,7 @@ function MenuEvents({ events, setEvents, needUpdate }) {
       },
     });
   }, []);
+
   return (
     <>
       <StyledButtonContainer>

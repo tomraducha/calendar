@@ -1,21 +1,24 @@
+/* BTIB */
+import { EventContentContainer } from "./style";
+import { StyledTypography } from "../Buttons/FavoritesButton/styles";
+import { dateSelect, eventChange, eventReceive } from "./UtilsCalendar";
+import ModalUpdateEvents from "../ModalEvents/ModalUpdateEvents/ModalUpdateEvents";
+import * as utilsOption from "./utilsOption";
+/* Libs & Plugins */
 import { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import FullCalendar from "@fullcalendar/react";
-import { dateSelect, eventChange, eventReceive } from "./UtilsCalendar";
-import ModalUpdateEvents from "../ModalEvents/ModalUpdateEvents/ModalUpdateEvents";
-import { EventContentContainer } from "./style";
-import { StyledTypography } from "../Buttons/FavoritesButton/styles";
-import {
-  HEADER_OPTIONS,
-  HIDDEN_DAYS,
-  INITIAL_VIEW,
-  PLUGINS,
-} from "./utilsOption";
+
+const { HEADER_OPTIONS, HIDDEN_DAYS, INITIAL_VIEW, PLUGINS } = utilsOption;
 
 function Calendar({ events, setEvents }) {
   const [openPopup, setOpenPopup] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const calendarRef = useRef(null);
+
+  ////////////////////////////////////////////////////////////////
+  // Event handlers
+  ////////////////////////////////////////////////////////////////
 
   function handleEventResize(info) {
     setEvents(eventChange(info));
@@ -40,6 +43,14 @@ function Calendar({ events, setEvents }) {
     setOpenPopup(true);
     setSelectedEvent(info.event);
   }
+
+  function handleClose() {
+    setOpenPopup(false);
+  }
+
+  ////////////////////////////////////////////////////////////////
+  // Methods
+  ////////////////////////////////////////////////////////////////
 
   function updateEvent(updatedEvent) {
     setEvents((prevEvents) =>
@@ -67,6 +78,7 @@ function Calendar({ events, setEvents }) {
     );
   }
 
+  //mettre dans les options sauf handle et ref event
   const calendarOptions = {
     plugins: PLUGINS,
     headerToolbar: HEADER_OPTIONS,
@@ -93,13 +105,17 @@ function Calendar({ events, setEvents }) {
     slotMaxTime: "24:00:00",
   };
 
+  ////////////////////////////////////////////////////////////////
+  // JSX
+  ////////////////////////////////////////////////////////////////
+
   return (
     <div className="full-calendar">
       <FullCalendar {...calendarOptions} />
       {openPopup && (
         <ModalUpdateEvents
           event={selectedEvent}
-          setOpenPopup={setOpenPopup}
+          onClose={handleClose}
           updateEvent={updateEvent}
         />
       )}

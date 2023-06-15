@@ -1,6 +1,8 @@
+/* BTIB */
+import { StyledTypography } from "../InfoEvents/style";
+/* Libs & plugins */
 import Select from "react-select";
 import PropTypes from "prop-types";
-import { StyledTypography } from "../InfoEvents/style";
 function DropdownFavorisEvents({ events }) {
   const options = events
     .filter((event) => event.title)
@@ -8,6 +10,10 @@ function DropdownFavorisEvents({ events }) {
       value: event.id,
       label: event.title,
     }));
+
+  ////////////////////////////////////////////////////////////////
+  // JSX
+  ////////////////////////////////////////////////////////////////
 
   return (
     <>
