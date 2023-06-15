@@ -2,15 +2,13 @@
 import { EventContentContainer } from "./style";
 import { StyledTypography } from "../Buttons/FavoritesButton/styles";
 import { dateSelect, eventChange, eventReceive } from "./UtilsCalendar";
-import ModalUpdateEvents from "../ModalEvents/ModalUpdateEvents/ModalUpdateEvents";
-import * as utilsOption from "./utilsOption";
 import Context from "../../pages/Context";
+import { calendarOptions } from "./utilsOption";
 /* Libs & Plugins */
 import { useRef, useState, useContext } from "react";
 import FullCalendar from "@fullcalendar/react";
 import PropTypes from "prop-types";
-
-const { HEADER_OPTIONS, HIDDEN_DAYS, INITIAL_VIEW, PLUGINS } = utilsOption;
+import ModalUpdateEvents from "../ModalEvents/ModalUpdateEvents/ModalUpdateEvents";
 
 function Calendar() {
   const { events } = useContext(Context);
@@ -81,40 +79,23 @@ function Calendar() {
     );
   }
 
-  //mettre dans les options sauf handle et ref event
-  const calendarOptions = {
-    plugins: PLUGINS,
-    headerToolbar: HEADER_OPTIONS,
-    events: events,
-    ref: calendarRef,
-    hiddenDays: HIDDEN_DAYS,
-    initialView: INITIAL_VIEW,
-    eventClick: handleEventClick,
-    eventResize: handleEventResize,
-    eventDrop: handleEventDrop,
-    eventReceive: handleEventReceive,
-    dateSelect: handleDateSelect,
-    eventContent: renderEventContent,
-    editable: true,
-    droppable: true,
-    selectable: true,
-    dayMaxEvents: true,
-    slotLabelFormat: {
-      hour: "numeric",
-      hour12: false,
-      timeZone: "Europe/Paris",
-    },
-    slotMinTime: "01:00:00",
-    slotMaxTime: "24:00:00",
-  };
-
   ////////////////////////////////////////////////////////////////
   // JSX
   ////////////////////////////////////////////////////////////////
 
   return (
     <div className="full-calendar">
-      <FullCalendar {...calendarOptions} />
+      <FullCalendar
+        {...calendarOptions}
+        events={events}
+        ref={calendarRef}
+        eventClick={handleEventClick}
+        eventResize={handleEventResize}
+        eventDrop={handleEventDrop}
+        eventReceive={handleEventReceive}
+        dateSelect={handleDateSelect}
+        eventContent={renderEventContent}
+      />
       {openPopup && (
         <ModalUpdateEvents
           event={selectedEvent}
