@@ -7,7 +7,6 @@ import { calendarOptions } from "./utilsOption";
 /* Libs & Plugins */
 import { useRef, useState, useContext } from "react";
 import FullCalendar from "@fullcalendar/react";
-import PropTypes from "prop-types";
 import ModalUpdateEvents from "../ModalEvents/ModalUpdateEvents/ModalUpdateEvents";
 
 function Calendar() {
@@ -106,10 +105,5 @@ function Calendar() {
     </div>
   );
 }
-
-Calendar.propTypes = {
-  events: PropTypes.array,
-  setEvents: PropTypes.func,
-};
 
 export default Calendar;
