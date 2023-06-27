@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const username = import.meta.env.VITE_USERNAME;
 const password = import.meta.env.VITE_PASSWORD;
 const url = import.meta.env.VITE_BASE_URL;
@@ -42,95 +44,106 @@ function checkLightOffRecurringEvent(dataValue) {
 }
 
 async function getRecurringEvents() {
-  const response = await fetch(urlReccuringEvents, {
-    method: "GET",
-    headers: {
-      mode: "cors",
-      Authorization: "Basic " + encodedAuthString,
-    },
-  });
-  const data = await response.json();
+  try {
+    const response = await axios.get(urlReccuringEvents, {
+      headers: {
+        Authorization: "Basic " + encodedAuthString,
+      },
+    });
 
-  const events = data.map((eventData) => {
-    return {
-      type: "recurring",
-      daysOfWeek: [dayOfWeekMap[eventData.day.toLowerCase()]],
-      startTime: eventData.startTime,
-      endTime: eventData.endTime,
-      id: eventData.id,
-      light: checkDataValue(eventData.dataValue),
-      dataValue: eventData.dataValue,
-      color: "rgba(155,255,130,0.8)",
-      className: checkLightOffRecurringEvent(eventData.dataValue),
-      textColor: "black",
-    };
-  });
-  return events;
+    const events = response.data.map((eventData) => {
+      return {
+        type: "recurring",
+        daysOfWeek: [dayOfWeekMap[eventData.day.toLowerCase()]],
+        startTime: eventData.startTime,
+        endTime: eventData.endTime,
+        id: eventData.id,
+        light: checkDataValue(eventData.dataValue),
+        dataValue: eventData.dataValue,
+        color: "rgba(155,255,130,0.8)",
+        className: checkLightOffRecurringEvent(eventData.dataValue),
+        textColor: "black",
+      };
+    });
+
+    return events;
+  } catch (error) {
+    console.error("Error when retrieving recurring events: ", error);
+  }
 }
 
 async function getSpecialEvents() {
-  const response = await fetch(urlSpecialEvents, {
-    method: "GET",
-    headers: {
-      mode: "cors",
-      Authorization: "Basic " + encodedAuthString,
-    },
-  });
-  const data = await response.json();
+  try {
+    const response = await axios.get(urlSpecialEvents, {
+      headers: {
+        Authorization: "Basic " + encodedAuthString,
+      },
+    });
 
-  const events = data.map((eventData) => {
-    return {
-      type: "special",
-      title: eventData.name,
-      start: eventData.startDate,
-      end: eventData.endDate,
-      id: eventData.id,
-      light: checkDataValue(eventData.dataValue),
-      dataValue: eventData.dataValue,
-      color: "rgba(174, 245, 39, 0.8)",
-      textColor: "black",
-      className: checkLightOffSpecialEvent(eventData.dataValue),
-    };
-  });
-  return events;
+    const events = response.data.map((eventData) => {
+      return {
+        type: "special",
+        title: eventData.name,
+        start: eventData.startDate,
+        end: eventData.endDate,
+        id: eventData.id,
+        light: checkDataValue(eventData.dataValue),
+        dataValue: eventData.dataValue,
+        color: "rgba(174, 245, 39, 0.8)",
+        textColor: "black",
+        className: checkLightOffSpecialEvent(eventData.dataValue),
+      };
+    });
+
+    return events;
+  } catch (error) {
+    console.error("Error when retrieving special events: ", error);
+  }
 }
 
 async function addSpecialEvent(event) {
-  const response = await fetch(urlSpecialEvents, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Basic " + encodedAuthString,
-    },
-    body: JSON.stringify(event),
-  });
-  const data = await response.json();
-  return data;
+  try {
+    const response = await axios.post(urlSpecialEvents, event, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + encodedAuthString,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error when adding a special event: ", error);
+  }
 }
 
 async function deleteSpecialEvent(eventId) {
-  const response = await fetch(`${urlSpecialEvents}/${eventId}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Basic " + encodedAuthString,
-    },
-  });
-  const data = await response.json();
-  return data;
+  try {
+    const response = await axios.delete(`${urlSpecialEvents}/${eventId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + encodedAuthString,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error when deleting a special event: ", error);
+  }
 }
 
 async function updateSpecialEvent(eventId, event) {
-  const response = await fetch(`${urlSpecialEvents}/${eventId}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Basic " + encodedAuthString,
-    },
-    body: JSON.stringify(event),
-  });
-  const data = await response.json();
-  return data;
+  try {
+    const response = await axios.put(`${urlSpecialEvents}/${eventId}`, event, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + encodedAuthString,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error updating a special event: ", error);
+  }
 }
 
 export {
