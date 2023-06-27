@@ -35,7 +35,7 @@ function eventReceive(info) {
 }
 
 function dateSelect(selectInfo) {
-  let title = prompt("Veuillez entrer le titre de l'événement");
+  let title = prompt("Please enter the event title");
   let calendarApi = selectInfo.view.calendar;
   calendarApi.unselect();
 
