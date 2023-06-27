@@ -3,7 +3,7 @@ import { addSpecialEvent } from "../../utilsApi";
 import { StyledTextField } from "./style";
 import Context from "../../../pages/Context";
 /* Libs & plugins */
-import { useState, useContext } from "react";
+import { useRef, useContext } from "react";
 import * as utilsMaterialUI from "@mui/material";
 import PropTypes from "prop-types";
 
@@ -12,31 +12,23 @@ const { Button, Dialog, DialogTitle, DialogContent, DialogActions } =
 
 function ModalCreateEvents({ open, setOpenPopup }) {
   const { getEvents } = useContext(Context);
-  // useRef
-  const [popupState, setPopupState] = useState({
-    title: "",
-    startDate: new Date(),
-    endDate: new Date(),
-  });
+  const titleRef = useRef();
+  const startRef = useRef();
+  const endRef = useRef();
 
   ////////////////////////////////////////////////////////////////
   // Event handlers
   ////////////////////////////////////////////////////////////////
 
   function handleClose() {
-    setPopupState({
-      title: "",
-      startDate: new Date(),
-      endDate: new Date(),
-    });
     setOpenPopup(false);
   }
 
   function handleSave() {
     const newEvent = {
-      eventName: popupState.title,
-      startDate: popupState.startDate,
-      endDate: popupState.endDate,
+      eventName: titleRef.current.value,
+      startDate: new Date(startRef.current.value),
+      endDate: new Date(endRef.current.value),
       value: true,
       eventId: Date.now().toString(),
     };
@@ -76,28 +68,15 @@ function ModalCreateEvents({ open, setOpenPopup }) {
           label="Titre"
           type="text"
           fullWidth
-          value={popupState.title}
-          onChange={(e) => {
-            setPopupState((prevState) => ({
-              ...prevState,
-              title: e.target.value,
-            }));
-            return;
-          }}
+          inputRef={titleRef}
         />
         <StyledTextField
           margin="dense"
           label="Début"
           type="datetime-local"
           fullWidth
-          value={convertToCEST(popupState.startDate)}
-          onChange={(e) => {
-            setPopupState((prevState) => ({
-              ...prevState,
-              startDate: new Date(e.target.value),
-            }));
-            return;
-          }}
+          defaultValue={convertToCEST(new Date())}
+          inputRef={startRef}
         />
 
         <StyledTextField
@@ -105,13 +84,8 @@ function ModalCreateEvents({ open, setOpenPopup }) {
           label="Fin"
           type="datetime-local"
           fullWidth
-          value={convertToCEST(popupState.endDate)}
-          onChange={(e) =>
-            setPopupState((prevState) => ({
-              ...prevState,
-              endDate: new Date(e.target.value),
-            }))
-          }
+          defaultValue={convertToCEST(new Date())}
+          inputRef={endRef}
         />
       </DialogContent>
       <DialogActions>

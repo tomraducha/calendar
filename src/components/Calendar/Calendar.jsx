@@ -10,8 +10,7 @@ import FullCalendar from "@fullcalendar/react";
 import ModalUpdateEvents from "../ModalEvents/ModalUpdateEvents/ModalUpdateEvents";
 
 function Calendar() {
-  const { events } = useContext(Context);
-  const { setEvents } = useContext(Context);
+  const { events, setEvents } = useContext(Context);
   const [openPopup, setOpenPopup] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const calendarRef = useRef(null);

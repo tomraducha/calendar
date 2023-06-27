@@ -5,16 +5,17 @@ import { StyledTextField } from "./style";
 /* Libs & plugins */
 import * as utilsMaterialUI from "@mui/material";
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const { Button, Dialog, DialogTitle, DialogContent, DialogActions } =
   utilsMaterialUI;
 
 function ModalUpdateEvents({ event, onClose }) {
-  //mettre dans des variables
+  const startRef = useRef();
+  const endRef = useRef();
+
   const [popupState, setPopupState] = useState({
     open: event !== null,
-    title: event?.title || "",
     startDate: event?.start || new Date(),
     endDate: event?.end || new Date(),
   });
@@ -22,7 +23,6 @@ function ModalUpdateEvents({ event, onClose }) {
   useEffect(() => {
     setPopupState({
       open: event !== null,
-      title: event?.title || "",
       startDate: event?.start || new Date(),
       endDate: event?.end || new Date(),
     });
@@ -42,10 +42,10 @@ function ModalUpdateEvents({ event, onClose }) {
   function handleSave() {
     const updatedEvent = {
       id: event.id,
-      start: formatDate(new Date(popupState.startDate)),
-      end: formatDate(new Date(popupState.endDate)),
-      title: popupState.title,
+      start: formatDate(new Date(startRef.current.value)),
+      end: formatDate(new Date(endRef.current.value)),
     };
+
     updateSpecialEvent(event.id, updatedEvent);
     handleClose();
   }
@@ -55,7 +55,7 @@ function ModalUpdateEvents({ event, onClose }) {
   ////////////////////////////////////////////////////////////////
 
   function formatDate(date) {
-    `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${(
+    return `${date.getFullYear()}-${("0" + (date.getMonth() + 1)).slice(-2)}-${(
       "0" + date.getDate()
     ).slice(-2)}`;
   }
@@ -81,29 +81,20 @@ function ModalUpdateEvents({ event, onClose }) {
           label="Début"
           type="datetime-local"
           fullWidth
-          value={
-            //mettre dans une variable
+          defaultValue={
             popupState.startDate ? convertToCEST(popupState.startDate) : ""
           }
-          onChange={(e) =>
-            setPopupState((prevState) => ({
-              ...prevState,
-              startDate: new Date(e.target.value),
-            }))
-          }
+          inputRef={startRef}
         />
         <StyledTextField
           margin="dense"
           label="Fin"
           type="datetime-local"
           fullWidth
-          value={popupState.endDate ? convertToCEST(popupState.endDate) : ""}
-          onChange={(e) =>
-            setPopupState((prevState) => ({
-              ...prevState,
-              endDate: new Date(e.target.value),
-            }))
+          defaultValue={
+            popupState.endDate ? convertToCEST(popupState.endDate) : ""
           }
+          inputRef={endRef}
         />
       </DialogContent>
       <DialogActions>

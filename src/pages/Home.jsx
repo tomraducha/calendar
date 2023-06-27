@@ -11,6 +11,7 @@ import { Grid } from "@mui/material";
 function Home() {
   //utiliser useContext
   const [events, setEvents] = useState([]);
+  console.log("🚀 ~ file: Home.jsx:14 ~ Home ~ events:", events);
 
   useEffect(() => {
     getEvents();
@@ -20,13 +21,16 @@ function Home() {
   // Methods
   ////////////////////////////////////////////////////////////////
 
-  function getEvents() {
-    //gestion erreur
-    Promise.all([getRecurringEvents(), getSpecialEvents()]).then(
-      ([recurringEvents, specialEvents]) => {
-        setEvents([...recurringEvents, ...specialEvents]);
-      }
-    );
+  async function getEvents() {
+    try {
+      const [recurringEvents, specialEvents] = await Promise.all([
+        getRecurringEvents(),
+        getSpecialEvents(),
+      ]);
+      setEvents([...recurringEvents, ...specialEvents]);
+    } catch (error) {
+      console.error("Error while retrieving events: ", error);
+    }
   }
 
   ////////////////////////////////////////////////////////////////
