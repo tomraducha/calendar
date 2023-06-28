@@ -110,7 +110,6 @@ function ModalUpdateEvents({ event, onClose }) {
 ModalUpdateEvents.propTypes = {
   event: PropTypes.object,
   onClose: PropTypes.func.isRequired,
-  updateEvent: PropTypes.func.isRequired,
 };
 
 export default ModalUpdateEvents;

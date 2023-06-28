@@ -1,10 +1,11 @@
 /* BTIB */
 import { StyledTypography } from "../InfoEvents/style";
+import Context from "../../../pages/Context";
 /* Libs & plugins */
 import { useContext } from "react";
 import Select from "react-select";
 import PropTypes from "prop-types";
-import Context from "../../../pages/Context";
+
 function DropdownFavorisEvents() {
   const { events } = useContext(Context);
   const options = events
@@ -13,10 +14,6 @@ function DropdownFavorisEvents() {
       value: event.id,
       label: event.title,
     }));
-
-  ////////////////////////////////////////////////////////////////
-  // JSX
-  ////////////////////////////////////////////////////////////////
 
   return (
     <>

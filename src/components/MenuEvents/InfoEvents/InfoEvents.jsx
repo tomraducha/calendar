@@ -8,8 +8,7 @@ import { Card, Tooltip } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 function InfoEvents() {
-  const { getEvents } = useContext(Context);
-  const { events } = useContext(Context);
+  const { getEvents, events } = useContext(Context);
 
   const options = events
     .filter((event) => event.title)

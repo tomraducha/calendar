@@ -1,6 +1,7 @@
+/* Libs & plugins */
 import styled from "@emotion/styled";
-import { Button } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
+import { Button } from "@mui/material";
 
 export const CloseIconButton = styled(IconButton)`
   &:hover {

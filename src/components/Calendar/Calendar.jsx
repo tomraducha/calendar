@@ -1,13 +1,13 @@
 /* BTIB */
+import Context from "../../pages/Context";
+import ModalUpdateEvents from "../ModalEvents/ModalUpdateEvents/ModalUpdateEvents";
 import { EventContentContainer } from "./style";
 import { StyledTypography } from "../Buttons/FavoritesButton/styles";
 import { dateSelect, eventChange, eventReceive } from "./UtilsCalendar";
-import Context from "../../pages/Context";
 import { calendarOptions } from "./utilsOption";
 /* Libs & Plugins */
 import { useRef, useState, useContext } from "react";
 import FullCalendar from "@fullcalendar/react";
-import ModalUpdateEvents from "../ModalEvents/ModalUpdateEvents/ModalUpdateEvents";
 
 function Calendar() {
   const { events, setEvents } = useContext(Context);
