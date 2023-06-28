@@ -1,26 +1,23 @@
-import { useEffect, useRef } from "react";
-import { Draggable } from "@fullcalendar/interaction";
+/* BTIB */
+import { StyledTypography } from "../InfoEvents/style";
+import Context from "../../../pages/Context";
+/* Libs & plugins */
+import { useContext } from "react";
 import Select from "react-select";
-import { eventOptions } from "../data/eventOptions";
+import PropTypes from "prop-types";
 
-function EventDropdown() {
-  const draggableEl = useRef(null);
-
-  useEffect(() => {
-    new Draggable(draggableEl.current, {
-      itemSelector: ".fc-event",
-      eventData: function (eventEl) {
-        return {
-          title: eventEl.innerText,
-          id: eventEl.id,
-        };
-      },
-    });
-  }, []);
+function DropdownFavorisEvents() {
+  const { events } = useContext(Context);
+  const options = events
+    .filter((event) => event.title)
+    .map((event) => ({
+      value: event.id,
+      label: event.title,
+    }));
 
   return (
-    <div id="external-events" ref={draggableEl}>
-      <h3>Events</h3>
+    <>
+      <StyledTypography>Favoris</StyledTypography>
       <Select
         styles={{
           control: (baseStyles, state) => ({
@@ -30,7 +27,7 @@ function EventDropdown() {
             margin: "0.4rem",
           }),
         }}
-        options={eventOptions}
+        options={options}
         components={{
           Option: ({ data, innerRef, innerProps }) => {
             return (
@@ -47,8 +44,15 @@ function EventDropdown() {
           },
         }}
       />
-    </div>
+    </>
   );
 }
 
-export default EventDropdown;
+DropdownFavorisEvents.propTypes = {
+  data: PropTypes.array,
+  events: PropTypes.array,
+  innerRef: PropTypes.func,
+  innerProps: PropTypes.object,
+};
+
+export default DropdownFavorisEvents;
