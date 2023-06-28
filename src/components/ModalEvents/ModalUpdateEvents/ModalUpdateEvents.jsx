@@ -37,8 +37,6 @@ function ModalUpdateEvents({ event, onClose }) {
     onClose();
   }
 
-  //utiliser useRef
-  // inputRef.current.value
   function handleSave() {
     const updatedEvent = {
       id: event.id,

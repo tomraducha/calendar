@@ -2,18 +2,19 @@
 import Calendar from "../components/Calendar/Calendar";
 import MenuEvents from "../components/MenuEvents/MenuEvents";
 import Title from "../components/Title/Title";
-import {
-  getRecurringEvents,
-  getNameSpecialEvents,
-  getTimeWindowsSpecialEvents,
-} from "../components/utilsApi";
+import * as getEvents from "../components/utilsApi";
 import Context from "./Context";
 /* Libs & plugins */
 import { useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 
+const {
+  getRecurringEvents,
+  getNameSpecialEvents,
+  getTimeWindowsSpecialEvents,
+} = getEvents;
+
 function Home() {
-  //utiliser useContext
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
