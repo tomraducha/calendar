@@ -1,6 +1,10 @@
 /* Libs & plugins */
 import axios from "axios";
 
+/**
+ * Environment variable definitions
+ **/
+
 const username = import.meta.env.VITE_USERNAME;
 const password = import.meta.env.VITE_PASSWORD;
 const url = import.meta.env.VITE_BASE_URL;
@@ -8,12 +12,20 @@ const scheduleId = import.meta.env.VITE_SCHEDULE_ID;
 const authString = `${username}:${password}`;
 const encodedAuthString = btoa(authString);
 
+/**
+ * Request header configuration
+ **/
+
 const config = {
   headers: { Authorization: `Basic ${encodedAuthString}` },
 };
 
 const urlReccuringEvents = `${url}/v2/schedule/${scheduleId}/recurringEvents`;
 const urlSpecialEvents = `${url}/v2/schedule/${scheduleId}/specialEvents`;
+
+/**
+ * Mapping of days of the week
+ **/
 
 const dayOfWeekMap = {
   sunday: 0,
@@ -24,6 +36,10 @@ const dayOfWeekMap = {
   friday: 5,
   saturday: 6,
 };
+
+/**
+ * Functions for checking data values
+ **/
 
 function checkDataValue(dataValue) {
   return dataValue ? "LightOn" : "LightOff";
@@ -36,6 +52,10 @@ function checkLightOffSpecialEvent(dataValue) {
 function checkLightOffRecurringEvent(dataValue) {
   return dataValue ? ["recurring-event"] : ["recurring-event-off"];
 }
+
+/**
+ * Functions related to recurring events
+ **/
 
 async function getRecurringEvents() {
   try {
@@ -60,6 +80,10 @@ async function getRecurringEvents() {
     console.error("Error while fetching recurring events: ", error);
   }
 }
+
+/**
+ * Functions related to special events
+ **/
 
 async function getNameSpecialEvents() {
   try {
