@@ -4,8 +4,13 @@ const username = import.meta.env.VITE_USERNAME;
 const password = import.meta.env.VITE_PASSWORD;
 const url = import.meta.env.VITE_BASE_URL;
 const scheduleId = import.meta.env.VITE_SCHEDULE_ID;
-const authString = username + ":" + password;
+const authString = `${username}:${password}`;
 const encodedAuthString = btoa(authString);
+
+const config = {
+  headers: { Authorization: `Basic ${encodedAuthString}` },
+};
+
 const urlReccuringEvents = `${url}/v2/schedule/${scheduleId}/recurringEvents`;
 const urlSpecialEvents = `${url}/v2/schedule/${scheduleId}/specialEvents`;
 
@@ -20,136 +25,128 @@ const dayOfWeekMap = {
 };
 
 function checkDataValue(dataValue) {
-  if (dataValue === true) {
-    return "LightOn";
-  } else {
-    return "LightOff";
-  }
+  return dataValue ? "LightOn" : "LightOff";
 }
 
 function checkLightOffSpecialEvent(dataValue) {
-  if (dataValue === false) {
-    return ["special-event-off"];
-  } else {
-    return ["special-event"];
-  }
+  return dataValue ? ["special-event"] : ["special-event-off"];
 }
 
 function checkLightOffRecurringEvent(dataValue) {
-  if (dataValue === false) {
-    return ["recurring-event-off"];
-  } else {
-    return ["recurring-event"];
-  }
+  return dataValue ? ["recurring-event"] : ["recurring-event-off"];
 }
 
 async function getRecurringEvents() {
   try {
-    const response = await axios.get(urlReccuringEvents, {
-      headers: {
-        Authorization: "Basic " + encodedAuthString,
-      },
-    });
+    const response = await axios.get(urlReccuringEvents, config);
+    const data = response.data;
 
-    const events = response.data.map((eventData) => {
-      return {
-        type: "recurring",
-        daysOfWeek: [dayOfWeekMap[eventData.day.toLowerCase()]],
-        startTime: eventData.startTime,
-        endTime: eventData.endTime,
-        id: eventData.id,
-        light: checkDataValue(eventData.dataValue),
-        dataValue: eventData.dataValue,
-        color: "rgba(155,255,130,0.8)",
-        className: checkLightOffRecurringEvent(eventData.dataValue),
-        textColor: "black",
-      };
-    });
+    const events = data.map((eventData) => ({
+      type: "recurring",
+      id: eventData.id,
+      daysOfWeek: [dayOfWeekMap[eventData.day.toLowerCase()]],
+      startTime: eventData.startTime,
+      endTime: eventData.endTime,
+      light: checkDataValue(eventData.dataValue),
+      dataValue: eventData.dataValue,
+      color: "rgba(155,255,130,0.8)",
+      className: checkLightOffRecurringEvent(eventData.dataValue),
+      textColor: "black",
+    }));
 
     return events;
   } catch (error) {
-    console.error("Error when retrieving recurring events: ", error);
+    console.error("Error while fetching recurring events: ", error);
   }
 }
 
-async function getSpecialEvents() {
+async function getNameSpecialEvents() {
   try {
-    const response = await axios.get(urlSpecialEvents, {
-      headers: {
-        Authorization: "Basic " + encodedAuthString,
-      },
-    });
+    const response = await axios.get(urlSpecialEvents, config);
+    const data = response.data;
+    console.log("Data from special events: ", data);
+    return data;
+  } catch (error) {
+    console.error("Error while fetching special events: ", error);
+  }
+}
 
-    const events = response.data.map((eventData) => {
-      return {
+async function getTimeWindowsSpecialEvents(specialEvents) {
+  const dataSpecialEvent = [];
+
+  for (const event of specialEvents) {
+    try {
+      const response = await axios.get(
+        `${urlSpecialEvents}/${event.name}/timeWindows`,
+        config
+      );
+      const data = response.data;
+
+      const value = data.map((data) => ({
         type: "special",
-        title: eventData.name,
-        start: eventData.startDate,
-        end: eventData.endDate,
-        id: eventData.id,
-        light: checkDataValue(eventData.dataValue),
-        dataValue: eventData.dataValue,
+        id: data.id,
+        eventName: event.name,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        light: checkDataValue(data.dataValue),
+        dataValue: data.dataValue,
         color: "rgba(174, 245, 39, 0.8)",
         textColor: "black",
-        className: checkLightOffSpecialEvent(eventData.dataValue),
-      };
-    });
+        className: checkLightOffSpecialEvent(data.dataValue),
+      }));
 
-    return events;
-  } catch (error) {
-    console.error("Error when retrieving special events: ", error);
+      console.log("Time windows for special event: ", value);
+      dataSpecialEvent.push(...value);
+    } catch (error) {
+      console.error(
+        "Error while fetching time windows for special events: ",
+        error
+      );
+    }
   }
+
+  return dataSpecialEvent;
 }
 
 async function addSpecialEvent(event) {
   try {
-    const response = await axios.post(urlSpecialEvents, event, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + encodedAuthString,
-      },
-    });
-
+    const response = await axios.post(urlSpecialEvents, event, config);
     return response.data;
   } catch (error) {
-    console.error("Error when adding a special event: ", error);
+    console.error("Error while adding special event: ", error);
   }
 }
 
 async function deleteSpecialEvent(eventId) {
   try {
-    const response = await axios.delete(`${urlSpecialEvents}/${eventId}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + encodedAuthString,
-      },
-    });
-
+    const response = await axios.delete(
+      `${urlSpecialEvents}/${eventId}`,
+      config
+    );
     return response.data;
   } catch (error) {
-    console.error("Error when deleting a special event: ", error);
+    console.error("Error while deleting special event: ", error);
   }
 }
 
 async function updateSpecialEvent(eventId, event) {
   try {
-    const response = await axios.put(`${urlSpecialEvents}/${eventId}`, event, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + encodedAuthString,
-      },
-    });
-
+    const response = await axios.put(
+      `${urlSpecialEvents}/${eventId}`,
+      event,
+      config
+    );
     return response.data;
   } catch (error) {
-    console.error("Error updating a special event: ", error);
+    console.error("Error while updating special event: ", error);
   }
 }
 
 export {
   getRecurringEvents,
-  getSpecialEvents,
   addSpecialEvent,
   deleteSpecialEvent,
   updateSpecialEvent,
+  getNameSpecialEvents,
+  getTimeWindowsSpecialEvents,
 };

@@ -2,7 +2,11 @@
 import Calendar from "../components/Calendar/Calendar";
 import MenuEvents from "../components/MenuEvents/MenuEvents";
 import Title from "../components/Title/Title";
-import { getRecurringEvents, getSpecialEvents } from "../components/utilsApi";
+import {
+  getRecurringEvents,
+  getNameSpecialEvents,
+  getTimeWindowsSpecialEvents,
+} from "../components/utilsApi";
 import Context from "./Context";
 /* Libs & plugins */
 import { useEffect, useState } from "react";
@@ -11,7 +15,6 @@ import { Grid } from "@mui/material";
 function Home() {
   //utiliser useContext
   const [events, setEvents] = useState([]);
-  console.log("🚀 ~ file: Home.jsx:14 ~ Home ~ events:", events);
 
   useEffect(() => {
     getEvents();
@@ -25,11 +28,12 @@ function Home() {
     try {
       const [recurringEvents, specialEvents] = await Promise.all([
         getRecurringEvents(),
-        getSpecialEvents(),
+        getNameSpecialEvents(),
       ]);
-      setEvents([...recurringEvents, ...specialEvents]);
+      const timeWindows = await getTimeWindowsSpecialEvents(specialEvents);
+      setEvents([...recurringEvents, ...timeWindows]);
     } catch (error) {
-      console.error("Error while retrieving events: ", error);
+      console.error("Error when retrieving events :", error);
     }
   }
 
